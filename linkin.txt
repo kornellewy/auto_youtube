@@ -1,0 +1,18 @@
+znalesc dobre tts dla eng i pl, esp, chinis, najelpej lokalnego
+tts :
+https://huggingface.co/spaces/styletts2/styletts2
+Coqui
+
+pipeline:
+skleic automatycznie,
+porapawic skrytp do filmu i wtawiac zarty z drugiego modelu, np delphina
+potem sklejanie wszytkiego co trzeba 
+i sprawdzenie kazdej czesci najpierw skrypt, potem zart, potem zdjecia, i potem juz zmontowanie
+
+ogolny pomysl na program
+moj pomysl to montowanie filmu w skrypcie mamy tagi [Music id] [Photo id] [Movie id] [Voice id],
+tagi moga być dla każdego zdania inne, ale jeśli nie sa zdefiniowane to zostają z poprzedniego zdania,
+program wczytuje yaml z metadanymi calego filmu, w fimlie jest gdzie sa skrytpy tekstowe filmu, 
+gdzie jest biblioteka obiekotow multimeialnych, jakie sa glosy, jaki tts uzyc, gdzie zapisac na koniec
+
+animataion control like [Anim: fadein+zoom]

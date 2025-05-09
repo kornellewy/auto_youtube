@@ -1,0 +1,29 @@
+voices:
+  narrator:
+    tts: bark
+    engine_params:
+      voice_id: "narrator"
+      bark_id: v2/en_speaker_6
+      ffmpeg_params : ""
+  cyborg:
+    tts: bark
+    engine_params:
+      voice_id: "narrator-robot"
+      bark_id: v2/en_speaker_6
+      ffmpeg_params : ""
+  philosopher:
+    tts: bark
+    engine_params:
+      voice_id: "philosopher-deep"
+      bark_id: v2/en_speaker_6
+      ffmpeg_params : ""
+  skynet:
+    tts: bark
+    engine_params:
+      voice_id: "skynet-mech"
+      bark_id: v2/en_speaker_6
+      ffmpeg_params : ""
+
+tts_engines:
+  bark:
+    provider: "local"

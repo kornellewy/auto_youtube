@@ -2,6 +2,7 @@ znalesc dobre tts dla eng i pl, esp, chinis, najelpej lokalnego
 tts :
 https://huggingface.co/spaces/styletts2/styletts2
 Coqui
+https://github.com/camenduru/metavoice-src
 
 pipeline:
 skleic automatycznie,

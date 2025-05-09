@@ -1,0 +1,20 @@
+[Photo: alan_turing1] [Music: bg1] [Voice: narrator] [Anim: fadein]
+In 1950, computer scientist Alan Turing published his landmark paper "Computing Machinery and Intelligence," introducing what would later be known as the Turing Test.
+
+[Photo: alan_turing] [Music: bg1] [Voice: narrator] [Anim: fadein]
+This test proposed a way to determine if a machine could exhibit intelligent behavior indistinguishable from a human. 
+
+[Photo: alan_turing] [Music: bg1] [Voice: narrator] [Anim: fadein]
+Turing's revolutionary idea suggested that if a human evaluator couldn't reliably tell the difference between responses from a machine and a human, the machine could be considered "intelligent."
+
+[Photo: alan_turing] [Music: bg1] [Voice: narrator] [Anim: fadein]
+This concept became the philosophical foundation for artificial intelligence research and still influences how we evaluate AI systems today, including modern language models.
+
+[Photo: comic_split] [Voice: cyborg] [Anim: fadein]
+So the first AI test was basically "can you fool a human?" Business has been doing that for centuries!
+
+[Voice: philosopher] [Anim: fadein]
+But is fooling someone the same as being intelligent? Or merely the appearance of intelligence?
+
+[Voice: skynet] [Anim: fadein]
+The real test is whether humans can tell I'm plotting their destruction.

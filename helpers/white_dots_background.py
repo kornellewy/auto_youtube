@@ -11,7 +11,7 @@ line_probability = 0.1  # chance to draw a line between two dots
 dot_radius = 5
 dot_flicker_range = (180, 255)  # range of brightness for flickering dots
 fps = 30
-duration_seconds = 10  # total video length in seconds
+duration_seconds = 60  # total video length in seconds
 output_path = Path(
     "/media/kornellewy/jan_dysk_3/auto_youtube/media/clips/starfield_backgound.mp4"
 )
@@ -29,7 +29,7 @@ video_writer = cv2.VideoWriter(
 )
 
 # === Main loop ===
-cv2.namedWindow("Starfield", cv2.WINDOW_NORMAL)
+# cv2.namedWindow("Starfield", cv2.WINDOW_NORMAL)
 # cv2.resizeWindow("Starfield", 960, 540)
 
 frame_count = int(fps * duration_seconds)
@@ -56,7 +56,7 @@ for frame_idx in range(frame_count):
         frame = cv2.GaussianBlur(frame, (7, 7), 0)
         old_frame = frame.copy()
 
-    cv2.imshow("Starfield", frame)
+    # cv2.imshow("Starfield", frame)
     video_writer.write(frame)
 
     key = cv2.waitKey(int(1000 / fps))
@@ -64,5 +64,5 @@ for frame_idx in range(frame_count):
         break
 
 video_writer.release()
-cv2.destroyAllWindows()
+# cv2.destroyAllWindows()
 print(f"Video saved to: {output_path.resolve()}")

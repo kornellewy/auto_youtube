@@ -12,14 +12,22 @@ from moviepy import (
     afx,
 )
 import cv2
+import numpy as np
 from moviepy.video.fx import FadeIn, Resize, FadeOut, SlideIn, SlideOut
 from transformers import AutoProcessor, AutoModel
 from scipy.io import wavfile
 import noisereduce
+import torch
+
+from helpers.moviepy_zoom_in_effect import zoom_in_effect
 
 
-processor = AutoProcessor.from_pretrained("suno/bark")
-model = AutoModel.from_pretrained("suno/bark")
+processor = AutoProcessor.from_pretrained("suno/bark", torch_dtype=torch.float16)
+model = AutoModel.from_pretrained("suno/bark", torch_dtype=torch.float16)
+model.eval()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
 # Parse tag line
 TAG_PATTERN = re.compile(r"\[(.*?)\]")
 BACKGROUND_RES = (1920, 1080)
@@ -32,7 +40,13 @@ voice_id_to_face_images_map = {
     "narrator": (
         Path(__file__).parent / "media" / "images" / "rockefeller.png",
         Path(__file__).parent / "media" / "images" / "rockefeller_month_open.png",
-    )
+    ),
+    "cyborg": (
+        Path(__file__).parent / "media" / "images" / "rockefeller.png",
+        Path(__file__).parent / "media" / "images" / "rockefeller_month_open.png",
+    ),
+    "philosopher": Path(__file__).parent / "media" / "clips" / "acent_talking_Cat.mp4",
+    "skynet": Path(__file__).parent / "media" / "clips" / "cyborg_talking.mp4",
 }
 
 
@@ -65,7 +79,9 @@ def generate_tts(text, voice_id, engine, script_name, script_sentence_id):
         Path(__file__).parent / "voices" / f"{script_name}___{script_sentence_id}.wav"
     )
     path.parent.mkdir(parents=True, exist_ok=True)
-    print(f"Generating TTS for {text} with voice {voice_id} using {engine} engine")
+    print(
+        f"Generating TTS for script_sentence_id {script_sentence_id} with voice {voice_id} using {engine} engine"
+    )
     if path.exists():
         return path
 
@@ -75,14 +91,30 @@ def generate_tts(text, voice_id, engine, script_name, script_sentence_id):
             return_tensors="pt",
             voice_preset=voice_id,
         )
-
-        speech_values = model.generate(**inputs, do_sample=True)
+        inputs = {
+            k: v.to(device) if isinstance(v, torch.Tensor) else v
+            for k, v in inputs.items()
+        }
+        inputs["history_prompt"] = {
+            k: v.to(device) if isinstance(v, torch.Tensor) else v
+            for k, v in inputs["history_prompt"].items()
+        }
+        with torch.no_grad():
+            speech_values = model.generate(
+                input_ids=inputs["input_ids"],
+                attention_mask=inputs["attention_mask"],
+                pad_token_id=processor.tokenizer.pad_token_id,
+                do_sample=True,
+                temperature=0.9,
+                history_prompt=inputs["history_prompt"],
+            )
 
         sampling_rate = model.config.codec_config.sampling_rate
+        speech_values = speech_values.cpu().numpy().squeeze().astype(np.float32)
         wavfile.write(
             str(path),
             rate=sampling_rate,
-            data=speech_values.cpu().numpy().squeeze(),
+            data=speech_values,
         )
 
     return path
@@ -90,34 +122,49 @@ def generate_tts(text, voice_id, engine, script_name, script_sentence_id):
 
 def parse_script(script_path):
     blocks = []
-    with open(script_path, "r") as f:
+    with open(script_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
-    current_tags = {
-        "photo": None,
-        "music": None,
-        "movie": None,
-        "voice": None,
-        "anim": "none",
-    }
-
-    for line in lines:
-        tags = TAG_PATTERN.findall(line)
-        content = TAG_PATTERN.sub("", line).strip()
-
-        for tag in tags:
-            if ":" in tag:
-                key, val = tag.lower().split(":", 1)
-                current_tags[key.strip()] = val.strip()
-
-        if content:
-            blocks.append({"text": content, "tags": current_tags.copy()})
+    idx = 0
+    text = ""
+    tags = {}
+    for line_idx, line in enumerate(lines):
+        print("line_idx", line_idx)
+        print("len(blocks)", len(blocks))
+        if idx == 0:
+            for tag in TAG_PATTERN.findall(line):
+                key, value = tag.split(": ")
+                key = key.lower()
+                tags[key.strip().lower()] = value.strip()
+            idx = 1
+            continue
+        elif idx == 1:
+            text = line
+            idx = 2
+            if line_idx == (len(lines) - 1):
+                blocks.append({"text": text, "tags": tags.copy()})
+            continue
+        elif idx == 2:
+            blocks.append({"text": text, "tags": tags.copy()})
+            text = ""
+            tags = {}
+            idx = 0
+            continue
+        else:
+            raise ValueError("")
 
     return blocks
 
 
 def get_talking_head(voice_id, duration):
-    mouth_closed_img_path, mouth_open_img_path = voice_id_to_face_images_map[voice_id]
+    results = voice_id_to_face_images_map[voice_id]
+    if isinstance(results, tuple):
+        mouth_closed_img_path, mouth_open_img_path = results
+    else:
+        if Path(results).suffix == ".mp4":
+            video = VideoFileClip(str(results))
+            video = video.with_duration(duration)
+            return video
 
     mouth_closed_img = cv2.imread(str(mouth_closed_img_path), cv2.IMREAD_UNCHANGED)
     mouth_closed_img = cv2.cvtColor(mouth_closed_img, cv2.COLOR_BGR2RGB)
@@ -148,12 +195,16 @@ def apply_animation(image_clip, anim_type):
     slide_out = SlideOut(duration=1, side="left")
     w, h = image_clip.size
     # resize = Resize(h * 1.05, w * 1.05)
-    if anim_type == "fadein+zoom":
-        image_clip = fade_in.apply(image_clip)
-        # image_clip = resize.apply(image_clip)
-        image_clip = fade_out.apply(image_clip)
+    if anim_type == "zoomin":
+        image_clip = zoom_in_effect(image_clip, 0.08)
         return image_clip
     elif anim_type == "fadein":
+        image_clip = fade_in.apply(image_clip)
+        return image_clip
+    elif anim_type == "fadeout":
+        image_clip = fade_out.apply(image_clip)
+        return image_clip
+    elif anim_type == "fadein+fadeout":
         image_clip = fade_in.apply(image_clip)
         image_clip = fade_out.apply(image_clip)
         return image_clip
@@ -170,7 +221,11 @@ def build_video_blocks(blocks, config, script_name):
     clips = []
     background = VideoFileClip(BACKGROUND_MOVIE_PATH, audio=False)
 
+    print(f"len of blocks {len(blocks)}")
     for block_idx, block in enumerate(blocks):
+        print("block_idx", block_idx)
+        print("text", block["text"])
+        print("################################")
         text = block["text"]
         tags = block["tags"]
 
@@ -179,7 +234,8 @@ def build_video_blocks(blocks, config, script_name):
         voice_id = config["voices"][voice]["engine_params"]["bark_id"]
 
         voice_file = generate_tts(text, voice_id, engine, script_name, block_idx)
-        noise_reduction(str(voice_file), str(voice_file))
+        # noise_reduction(str(voice_file), str(voice_file))
+        # continue
         audio_clip = AudioFileClip(str(voice_file))
 
         image_id = tags["photo"]
@@ -192,8 +248,11 @@ def build_video_blocks(blocks, config, script_name):
         image_clip = ImageClip(image)
         image_clip = image_clip.with_duration(audio_clip.duration)
 
-        image_clip = apply_animation(image_clip, tags["anim"])
-        # dodanie gadajacej glowy dla kazdego z narratorow inna
+        image_clip = (image_clip, tags["anim"])
+        # tutaj sceny
+        # talking head to 1
+        # konfrence room to 2
+        # show_vide_scene to 3
         talking_head = get_talking_head(voice, audio_clip.duration)
 
         final = image_clip.with_audio(audio_clip)
@@ -206,12 +265,13 @@ def build_video_blocks(blocks, config, script_name):
         talking_head = talking_head.with_position(("left", "bottom"), relative=True)
         composite = CompositeVideoClip([background, final, talking_head])
 
-        composite.write_videofile(
-            "./test.mp4", fps=30, audio_fps=44100, codec="libx264", audio_codec="aac"
-        )
+        # composite.write_videofile(
+        #     "./test.mp4", fps=30, audio_fps=44100, codec="libx264", audio_codec="aac"
+        # )
         clips.append(composite)
 
-        return clips
+        # return clips
+    return clips
 
 
 def main():
@@ -224,9 +284,9 @@ def main():
     video_clips = build_video_blocks(blocks, config, script_path.stem)
 
     final_video = concatenate_videoclips(video_clips)
-    output_path = Path(__file__) / "output" / f"{script_path.stem}.mp4"
-    # (Path(__file__) / "output").mkdir(parents=True, exist_ok=True)
-    # final_video.write_videofile(str(output_path), fps=60)
+    output_path = Path(__file__).parent / "output" / f"{script_path.stem}.mp4"
+    (Path(__file__).parent / "output").mkdir(parents=True, exist_ok=True)
+    final_video.write_videofile(str(output_path), fps=60)
 
 
 if __name__ == "__main__":

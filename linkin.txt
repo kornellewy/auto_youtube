@@ -4,6 +4,10 @@ https://huggingface.co/spaces/styletts2/styletts2
 Coqui
 https://github.com/camenduru/metavoice-src
 
+prompts for bark ai:
+https://www.youtube.com/watch?v=jo8hAqmXmG0
+
+
 pipeline:
 skleic automatycznie,
 porapawic skrytp do filmu i wtawiac zarty z drugiego modelu, np delphina
@@ -17,3 +21,15 @@ program wczytuje yaml z metadanymi calego filmu, w fimlie jest gdzie sa skrytpy 
 gdzie jest biblioteka obiekotow multimeialnych, jakie sa glosy, jaki tts uzyc, gdzie zapisac na koniec
 
 animataion control like [Anim: fadein+zoom]
+
+podobny kanal tez raczej twonony przez ai :
+https://www.youtube.com/@airevolutionx
+- moge z nieogo wyciac klipy i je dawac jako tła, fajne dynamiczne tla  
+
+podobny kana:
+https://www.youtube.com/@SciencephiletheAI
+
+podobny kanal:
+https://www.youtube.com/@astartesanonymous
+
+

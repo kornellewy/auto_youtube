@@ -1,0 +1,11 @@
+[Photo: alan_turing1] [Voice: narrator] [Anim: zoomin] [transitionin: fadein] [transitionout: fadein]
+In 1950, computer scientist Alan Turing published his landmark paper "Computing Machinery and Intelligence," introducing what would later be known as the Turing Test.
+
+[Photo: alan_turing1] [Voice: narrator] [Anim: zoomin] [transitionin: none] [transitionout: none]
+This test proposed a way to determine if a machine could exhibit intelligent behavior indistinguishable from a human. 
+
+[Photo: alan_turing1] [Voice: narrator] [Anim: zoomin] [transitionin: none] [transitionout: none]
+Turing's revolutionary idea suggested that if a human evaluator couldn't reliably tell the difference between responses from a machine and a human, the machine could be considered "intelligent."
+
+[Photo: alan_turing1] [Voice: narrator] [Anim: fadeout] [transitionin: none] [transitionout: fadeout]
+This concept became the philosophical foundation for artificial intelligence research and still influences how we evaluate AI systems today, including modern language models.

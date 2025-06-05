@@ -3,25 +3,25 @@ voices:
     tts: bark
     engine_params:
       voice_id: "narrator"
-      bark_id: v2/en_speaker_6
+      bark_id: /media/kornellewy/jan_dysk_3/auto_youtube/suno_ai_voices/english/en_speaker_6.npz
       ffmpeg_params : ""
   cyborg:
     tts: bark
     engine_params:
       voice_id: "narrator-robot"
-      bark_id: v2/en_speaker_6
+      bark_id: /media/kornellewy/jan_dysk_3/auto_youtube/suno_ai_voices/english/en_speaker_3.npz
       ffmpeg_params : ""
   philosopher:
     tts: bark
     engine_params:
       voice_id: "philosopher-deep"
-      bark_id: v2/en_speaker_6
+      bark_id: /media/kornellewy/jan_dysk_3/auto_youtube/suno_ai_voices/english/en_speaker_2.npz
       ffmpeg_params : ""
   skynet:
     tts: bark
     engine_params:
       voice_id: "skynet-mech"
-      bark_id: v2/en_speaker_6
+      bark_id: /media/kornellewy/jan_dysk_3/auto_youtube/suno_ai_voices/english/en_speaker_9.npz
       ffmpeg_params : ""
 
 tts_engines:

@@ -1,0 +1,99 @@
+Video 1: The Foundations (1950-1980)
+
+    Early AI concepts, Turing Test, neural networks, and first AI winter
+    Focus: How early theories laid groundwork for modern LLMs
+
+Video 2: The AI Renaissance (1980-1997)
+
+    Expert systems, Lisp machines, early NLP, and symbolic AI
+    Focus: Transition from rule-based to statistical approaches
+
+Video 3: Machine Learning Takes Flight (1997-2010)
+
+    Deep Blue, neural networks, rise of statistical methods
+    Focus: Technologies that would enable future LLMs
+
+Video 4: From Word2vec to BERT (2010-2018)
+
+    Word embeddings, early neural language models, Google Brain
+    Focus: Language representation breakthroughs
+
+Video 5: The Transformer Revolution (2017-2019)
+
+    "Attention is All You Need" paper, transformer architecture
+    Focus: Technical innovation enabling modern LLMs
+
+Video 6: GPT-1 and GPT-2 (2018-2019)
+
+    First generations of GPT models and their capabilities
+    Focus: OpenAI's emergence and early generative text
+
+Video 7: BERT and Bidirectional Models (2018-2020)
+
+    Google's BERT and bidirectional language understanding
+    Focus: How BERT changed search and language understanding
+
+Video 8: GPT-3 Breakthrough (2020)
+
+    GPT-3's capabilities, applications, and impact
+    Focus: The 175 billion parameter model that changed everything
+
+Video 9: Early Image Generation (2014-2020)
+
+    GANs, early image synthesis, Style GANs
+    Focus: First steps in AI image creation
+
+Video 10: The Birth of DALL-E (2021)
+
+    OpenAI's multimodal approach to image generation
+    Focus: Connecting language models to image creation
+
+Video 11: Midjourney and Stable Diffusion (2022)
+
+    The explosion of accessible image generation tools
+    Focus: Democratization of AI art creation
+
+Video 12: ChatGPT Development (2022)
+
+    Building conversational AI on top of GPT models
+    Focus: How ChatGPT was created and trained
+
+Video 13: ChatGPT Impact (2022-2023)
+
+    Cultural, economic, and societal impact of ChatGPT
+    Focus: From viral phenomenon to everyday tool
+
+Video 14: GPT-4 and Multimodal AI (2023)
+
+    Text-to-image capabilities, multimodal understanding
+    Focus: Integration of language and vision
+
+Video 15: The Big Players (2023)
+
+    OpenAI, Google, Microsoft, Meta, and other major companies
+    Focus: Corporate competition in the AI space
+
+Video 16: AI Regulation and Policy (2023-2024)
+
+    Global approaches to AI governance and ethics
+    Focus: Legal and regulatory responses to AI advancement
+
+Video 17: Open Source vs. Closed AI (2023-2024)
+
+    Tension between open and proprietary AI models
+    Focus: Business models and accessibility
+
+Video 18: Current State of LLMs (2024-2025)
+
+    Latest advancements, capabilities, and limitations
+    Focus: Current landscape of language models
+
+Video 19: Current State of Image Generation (2024-2025)
+
+    Latest image synthesis technologies and applications
+    Focus: State-of-the-art in visual AI
+
+Video 20: The Future of AI (2025 and beyond)
+
+    Predictions, possibilities, and potential paths forward
+    Focus: Where AI might go next and what it means for humanity

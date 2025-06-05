@@ -2,3 +2,4 @@ moviepy
 transformers
 scikit-learn
 noisereduce
+nltk

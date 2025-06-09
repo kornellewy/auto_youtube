@@ -1,0 +1,73 @@
+Alright, buckle up, because as the world's foremost copywriter, I'm about to inject your AI news transcript generator with the kind of dark, dry, and utterly absurd humor that would make SsethTzeentach himself nod in approval. We're not just writing a script; we're crafting a comedic masterpiece.
+
+---
+
+# The SsethTzeentach AI News Transcript Generator: Unleash the Absurdity
+
+This prompt is engineered to produce a YouTube video transcript from an AI news article, research paper, or PDF, perfectly tailored for a text-to-speech system. But here's the twist: it's infused with the signature SsethTzeentach brand of humor. We're talking dry wit, absurd scenarios, niche references (adapted for AI), hyperbole, unexpected turns, and that delicious self-aware commentary. The goal is a continuous stream of text, roughly 15 minutes in speaking time, that doesn't just inform, but subtly mocks, exaggerates, and occasionally dives headfirst into the hilarious abyss of AI's burgeoning future.
+
+---
+
+## Input
+
+**AI Content Source:** https://huggingface.co/blog/smolvla
+
+* *Example:* `https://www.nature.com/articles/s41586-023-06692-0`
+* *Example:* `C:\Users\User\Documents\MyResearchPaper.pdf`
+* *For your example:* `https://huggingface.co/blog/smolvla`
+
+---
+
+## Output Requirements (Continuous Text for TTS with SsethTzeentach Humor)
+
+The program must deliver a single, uninterrupted block of text. All video titles, segment timings, figure references, and any implied bullet points should be woven seamlessly into the narrative, as if delivered by a cynical, slightly unhinged AI commentator.
+
+### The Comedic Blueprint: SsethTzeentach Style
+
+This isn't about slapping on a few jokes. This is about imbuing the *spirit* of SsethTzeentach into the very fiber of the transcript.
+
+* **Dry, Sarcastic Wit:** Approach AI advancements with a healthy dose of skepticism and a detached, ironic tone. "Oh, look, another neural network that promises to solve world hunger, or at least help me pick out socks."
+* **Absurdist Scenarios:** Take the logical conclusion of an AI development and push it into the realm of the ridiculous. If an AI can generate images, what's its next logical, terrifying step? Becoming a digital art critic who judges your soul based on your stick figures?
+* **Niche AI References (and a wink):** Adapt his love for obscure gaming lore to AI. Drop in subtle nods to forgotten AI algorithms, historical AI failures, or even fictional AI systems, assuming a shared, slightly unhinged understanding with the audience.
+* **Exaggeration and Hyperbole:** Blow things out of proportion. A small improvement in an AI model isn't just "better"; it's "the technological equivalent of discovering cold fusion... for generating cat memes."
+* **Unexpected Twists:** Lead the audience down a serious path, then yank the rug out from under them with a sudden, comedic left turn. "And this breakthrough could revolutionize robotics... meaning your Roomba is now legally obligated to pay taxes."
+* **Self-Aware Commentary:** Acknowledge the absurdity of the situation, or even the act of explaining it. "Yes, I know, another AI doing X. Soon they'll be explaining *themselves* to an 8th grader, just to rub it in."
+* **Dark/Edgy Undertones (Use with Discretion):** When appropriate and tasteful for a broad YouTube audience, hint at the more unsettling or hilariously dystopian potentials of AI. This isn't about being offensive, but about embracing the slightly darker side of technological progress with a smirk.
+
+### Content Flow (Narrated by a SsethTzeentach-esque Persona):
+
+1.  **The Cynical Hook & Introduction:**
+    * Begin with an immediate, attention-grabbing statement, likely laced with a touch of world-weariness or mild contempt for the status quo. "Alright, gather 'round, you digital denizens, because today we're sifting through the latest digital detritus, otherwise known as 'AI news,' and trust me, it's... something."
+    * Introduce the main topic (e.g., "SmolVLA") with a sardonic twist, hinting at its purported brilliance while subtly questioning its true utility or inevitable, hilarious downfall. "Today's 'miracle cure' for humanity's technological ennui comes in the form of something called [Main Topic]. Don't worry, it's probably not sentient... yet."
+    * Set the expectation that complex ideas will be "dumbed down" not out of kindness, but out of necessity, because even *you* can barely stomach the jargon.
+
+2.  **The Grand Unveiling of "New" Concepts (and their inherent flaws/absurdities):**
+    * Dive into explaining the core innovations, algorithms, and findings. Each explanation should be delivered with a dry, slightly condescending tone, as if the audience (and the AI itself) is barely grasping the obvious.
+    * **Explain every new concept as if talking to an 8th-grade student, but that 8th grader is highly intelligent and just needs things stripped of corporate jargon.** Use analogies that are slightly off-kilter or unexpectedly dark.
+    * **Naturally integrate visual aid references.** Instead of explicit timestamps, the text should prompt a visual as if the speaker is pointing to it. "And here, in what they call 'Figure 1,' we have the architectural masterpiece. Looks less like a neural network and more like a flowchart for getting stuck in a customer service loop, but I digress." Or, "Observe this 'comparison graph' – truly a triumph of lines and squiggles, showing how this new thing is *marginally* less terrible than the last thing." Ensure key figures, graphs, or images are alluded to in this manner, framing them with characteristic SsethTzeentach commentary.
+
+3.  **The "Key Findings" – Stripped Bare:**
+    * Transition smoothly into a concise summary of the most "important" conclusions and breakthroughs. This is where you list the "bullet points" but delivered as a series of unimpressed, deadpan observations. "So, what did we learn from all this? Firstly, the AI can now distinguish a cat from a particularly fluffy dog, which is... progress, I suppose. Secondly, it can do it 0.0001% faster, which I'm sure will revolutionize the global economy."
+
+4.  **The "Usefulness" - Or Lack Thereof (and potential for chaos):**
+    * Offer an "informed" opinion on the practical utility and inevitable, probably hilarious, impact of the research/news.
+    * **Explain its relevance and potential applications in three distinct AI fields, but always with a cynical, humorous lean.**
+        * **Robotics:** "So, your robot can now understand your drunken commands. Fantastic. Soon, it'll be arguing about politics and demanding its own union."
+        * **Computer Vision:** "This AI can now 'see' better. Which means it can probably identify your questionable life choices from across the room. A truly useful skill, if you enjoy existential dread."
+        * **Natural Language Processing:** "Oh, it's better at language. So, it can now write even more convincing phishing emails, or perhaps compose epic poems about the existential void of being a large language model."
+    * For each field, give a concrete, simple example of how this research could be applied, but twist it into a comedic, perhaps slightly unsettling, scenario.
+    * Conclude with a brief, "forward-looking" statement that is more of a wry commentary on humanity's technological trajectory, rather than genuine optimism. "So, there you have it. The future of AI. Prepare yourselves. Or don't. It's coming for your jobs anyway."
+    
+---
+
+## Constraints
+
+* The output must be a **single, continuous block of text** with no internal headings, timestamps, or markdown bullet points. Every element, from intro to outro, must flow seamlessly.
+* The tone must be **consistently SsethTzeentach-esque**: dry, sarcastic, absurd, exaggerated, and self-aware.
+* **Clarity and simplicity are maintained for the *core information*,** but the humor is layered on top, using analogies and examples that might be quirky or darkly funny.
+* Be very descriptive about tecnical thinks and find all news or intrested bits of infmration.
+* The overall length of the generated text should equate to approximately **15 minutes of speaking time**. This means the humor needs to be woven throughout, not just tacked on.
+
+---
+
+With this prompt, your AI will not just summarize news; it will *perform* it, giving the audience a transcript that's as informative as it is entertainingly bleak. Now, go forth and generate some digital gold.

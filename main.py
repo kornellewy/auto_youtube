@@ -16,30 +16,33 @@ import numpy as np
 from moviepy.video.fx import FadeIn, Resize, FadeOut, SlideIn, SlideOut
 from transformers import AutoProcessor, AutoModel
 from scipy.io import wavfile
-import noisereduce
+
+# import noisereduce
 import torch
 
 from helpers.moviepy_zoom_in_effect import zoom_in_effect
 
 
-processor = AutoProcessor.from_pretrained("suno/bark", torch_dtype=torch.float16)
-model = AutoModel.from_pretrained("suno/bark", torch_dtype=torch.float16)
+processor = AutoProcessor.from_pretrained("suno/bark")
+model = AutoModel.from_pretrained("suno/bark")
 model.eval()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Parse tag line
 TAG_PATTERN = re.compile(r"\[(.*?)\]")
-BACKGROUND_RES = (1920, 1080)
-TARGET_IMAGE_RES = (int(1920 * 0.7), int(1080 * 0.7))
-TALKING_HEAD_RES = (int(1920 * 0.4), int(1080 * 0.4))
+
+# TODO: remove add bc debug
+BACKGROUND_RES = (640, 480)  # (1920, 1080)
+TARGET_IMAGE_RES = (int(BACKGROUND_RES[0] * 0.7), int(BACKGROUND_RES[1] * 0.7))
+TALKING_HEAD_RES = (int(BACKGROUND_RES[0] * 0.4), int(BACKGROUND_RES[1] * 0.4))
 BACKGROUND_MOVIE_PATH = Path(
     Path(__file__).parent / "media" / "clips" / "starfield_backgound.mp4"
 )
 voice_id_to_face_images_map = {
     "narrator": (
-        Path(__file__).parent / "media" / "images" / "rockefeller.png",
-        Path(__file__).parent / "media" / "images" / "rockefeller_month_open.png",
+        Path(__file__).parent / "media" / "images" / "philosofer.png",
+        Path(__file__).parent / "media" / "images" / "philosofer.png",
     ),
     "cyborg": (
         Path(__file__).parent / "media" / "images" / "rockefeller.png",
@@ -246,9 +249,10 @@ def build_video_blocks(blocks, config, script_name):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = resize_keep_aspect_no_padding(image, TARGET_IMAGE_RES)
         image_clip = ImageClip(image)
+
         image_clip = image_clip.with_duration(audio_clip.duration)
 
-        image_clip = (image_clip, tags["anim"])
+        # image_clip = (image_clip, tags["anim"])
         # tutaj sceny
         # talking head to 1
         # konfrence room to 2
@@ -282,6 +286,9 @@ def main():
     blocks = parse_script(script_path)
 
     video_clips = build_video_blocks(blocks, config, script_path.stem)
+
+    # TODO: remove add bc debug
+    video_clips = video_clips[:3]
 
     final_video = concatenate_videoclips(video_clips)
     output_path = Path(__file__).parent / "output" / f"{script_path.stem}.mp4"

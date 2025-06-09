@@ -13,7 +13,7 @@ dot_flicker_range = (180, 255)  # range of brightness for flickering dots
 fps = 30
 duration_seconds = 60  # total video length in seconds
 output_path = Path(
-    "/media/kornellewy/jan_dysk_3/auto_youtube/media/clips/starfield_backgound.mp4"
+    Path(__file__).parent.parent / "media" / "clips" / "starfield_backgound.mp4"
 )
 
 # === Generate random dot positions ===
@@ -53,7 +53,7 @@ for frame_idx in range(frame_count):
                 pt2 = random.choice(dots)
                 cv2.line(frame, pt1, pt2, (255, 255, 255), 2)
         # add
-        frame = cv2.GaussianBlur(frame, (7, 7), 0)
+        frame = cv2.GaussianBlur(frame, (7, 7), 10)
         old_frame = frame.copy()
 
     # cv2.imshow("Starfield", frame)

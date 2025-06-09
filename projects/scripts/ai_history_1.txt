@@ -1,128 +1,128 @@
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadein]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: fadein] [transitionout: None]
 In "Computing Machinery and Intelligence," Alan Turing addressed the profound question: "Can machines think?"
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Rather than attempting to define "thinking" in a way that might lead to endless philosophical debate, he famously proposed an operational test, now known as the Turing Test (or the "Imitation Game").
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The Turing Test Explained: The test involves three participants: A human interrogator.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 A human confederate.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 A machine (the computer program being tested).
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The interrogator interacts with both the human and the machine via text-based communication (to eliminate biases based on appearance or voice).
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The interrogator's goal is to determine which of the two participants is the human and which is the machine.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 If the machine can fool a significant number of interrogators into believing it is a human, then, according to Turing, it can be said to exhibit intelligent behavior indistinguishable from a human.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Theoretical Implications: Behavioral Approach to Intelligence: Turing shifted the focus from defining what "intelligence" is to how it manifests.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He argued that if a machine's conversational behavior is indistinguishable from a human's, then for all practical purposes, we should consider it intelligent.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 This pragmatic approach bypassed the need for a precise philosophical definition of consciousness or inner thought.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The "Child Machine" Concept: In the paper, Turing also speculated on the idea of a "child machine."
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He suggested that instead of trying to program a machine with all the necessary knowledge, it might be more effective to create a machine with basic learning capabilities, which could then be "educated" like a child.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 This foreshadowed the field of machine learning and the idea that AI systems could learn from experience rather than being explicitly programmed for every scenario.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Anticipation of Objections: Turing meticulously addressed various objections to the idea of "thinking machines," such as the theological objection (only God can create souls), the "head in the sand" objection (it's too scary to think about), and Lady Lovelace's objection (machines can only do what they are programmed to do).
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 His counter-arguments provided a robust defense for the nascent field.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Computability Theory and the Universal Turing Machine: While not directly discussed in "Computing Machinery and Intelligence," Turing's earlier theoretical work in 1936, "On Computable Numbers, With an Application to the Entscheidungsproblem," was foundational.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 In this paper, he introduced the concept of the Turing Machine, a hypothetical device capable of performing any computation that can be described algorithmically.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Crucially, he also described the Universal Turing Machine (UTM), a machine capable of simulating any other Turing machine.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The UTM is the theoretical blueprint for modern computers, demonstrating that a single machine design could execute any conceivable program.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 This theoretical universal machine was a prerequisite for the idea of a "thinking machine" that could execute complex intelligent behaviors.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Practical Work for AI (and its Indirect Impact) While Turing didn't build a fully "intelligent" machine during his lifetime, his practical work provided the essential infrastructure and conceptual underpinnings for AI development: Codebreaking at Bletchley Park (World War II): Turing's most significant practical contribution during the war was his work at Bletchley Park, where he played a pivotal role in cracking the Enigma code used by the German military.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He led the section responsible for German naval cryptanalysis and made crucial improvements to the Bombe, an electromechanical machine designed to decipher Enigma messages.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 This work was a monumental achievement in applied computation and demonstrated the power of machines in complex problem-solving.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 While not AI in the modern sense, it involved systematic search, logical deduction, and the automation of complex tasks, which are core elements of AI.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Design of Early Computers: After the war, Turing worked at the National Physical Laboratory (NPL) where he designed the Automatic Computing Engine (ACE), one of the earliest comprehensive designs for a stored-program computer.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Later, at the University of Manchester, he contributed to the development of early Manchester computers, notably designing an input-output system and a programming system.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 These machines, though primitive by today's standards, were the practical embodiments of his Universal Turing Machine concept and provided the hardware platform upon which future AI programs would run.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He also wrote the first-ever programming manual.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Chess Programming: Turing was deeply interested in machine intelligence and explored the idea of teaching computers to play chess.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He even co-authored one of the earliest computer chess programs (though it was never fully implemented on a machine during his lifetime due to lack of computational power, so he simulated its operations by hand).
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 This practical exploration of a specific, complex intellectual game provided a concrete problem for AI researchers to tackle, laying the groundwork for later successes in game AI.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He discussed heuristics like minimax and best-first search, which became important in AI.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 In essence, Turing's practical work established the very possibility of general-purpose computation, without which the ambitious goal of creating artificial intelligence would have been impossible.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 His theoretical insights then provided a framework for thinking about what machine intelligence might look like and how it could be tested.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The Tragic End: Why Alan Turing Died Alan Turing's life ended tragically and prematurely on June 7, 1954, at the age of 41.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 His death was officially ruled a suicide by cyanide poisoning.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 The Circumstances: Prosecution for Homosexuality: In 1952, Turing was prosecuted for "gross indecency" under British laws, which criminalized homosexual acts.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He had reported a burglary at his home, and during the police investigation, he admitted to a sexual relationship with a man.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Chemical Castration: Instead of prison, Turing was offered a choice: imprisonment or probation conditional on undergoing hormonal treatment, a form of chemical castration, using synthetic estrogen.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 He chose the latter, which had devastating physical and psychological effects, including gynecomastia (breast development) and a reduced libido.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: None]
 Loss of Security Clearance: His conviction also led to the revocation of his security clearance, effectively barring him from continuing his vital governmental code-breaking and computing work.
 
-[Photo: alan_turing_general] [Voice: narrator] [Anim: alan_turing_general] [transitionin: fadein] [transitionout: fadeout]
+[Photo: alan_turing_general] [Voice: narrator] [Anim: zoomin] [transitionin: None] [transitionout: fadeout]
 This was a significant blow to a man who had dedicated his life to intellectual pursuits and national service.

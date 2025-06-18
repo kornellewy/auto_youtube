@@ -9,8 +9,8 @@ class VideoScriptGenerator:
         default_photo: str = "default_photo",
         default_voice: str = "narrator",
         default_anim: str = "zoomin",
-        default_transitionin: str = "fadein",
-        default_transitionout: str = "fadeout",
+        default_transitionin: str = "none",
+        default_transitionout: str = "none",
         last_anim: str = "fadeout",
         last_transitionout: str = "fadeout",
     ):
@@ -36,10 +36,8 @@ class VideoScriptGenerator:
             return None
 
     def _split_text_to_sentences(self, text_content: str) -> list[str]:
-        nltk.download("punkt_tab")
-        sentences = nltk.sent_tokenize(text_content)
         cleaned_sentences = []
-        for sentence in sentences:
+        for sentence in text_content.split("\n"):
             sentence = sentence.strip()
             sentence = re.sub(r"\s+", " ", sentence)
             if len(sentence) > 5:
@@ -73,8 +71,8 @@ class VideoScriptGenerator:
             # Apply specific rules for first/last sentences
             if i == 0:
                 current_anim = "zoomin"
-                current_transitionin = "fadein"
-                current_transitionout = "fadein"
+                current_transitionin = "none"
+                current_transitionout = "none"
             elif i == num_sentences - 1:
                 current_anim = self.last_anim
                 current_transitionout = self.last_transitionout
@@ -116,13 +114,13 @@ if __name__ == "__main__":
     input_dir = Path("./projects/raw_scripts")
     output_dir = Path("./projects/scripts")
 
-    input_file = input_dir / "ai_history_1.txt"
-    output_file = output_dir / "ai_history_1.txt"
+    input_file = input_dir / "08_06_2025_haggingface_smolvam.txt"
+    output_file = output_dir / "08_06_2025_haggingface_smolvam.txt"
 
     input_text_content = generator.load_text_content(input_file)
 
     # Write dummy content to input file
-    input_file.write_text(input_text_content.strip(), encoding="utf-8")
+    input_file.write_text(input_text_content, encoding="utf-8")
     print(f"Dummy input file created at: {input_file}")
 
     # Initialize and run the generator

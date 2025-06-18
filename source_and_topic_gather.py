@@ -25,6 +25,7 @@ from pathlib import Path
 import re
 import os
 from datetime import datetime
+from PIL import Image
 
 # Constants
 OUTPUT_DIR = Path("scraped_articles")
@@ -32,7 +33,7 @@ DATABASE_PATH = Path("processed_articles.csv")
 SITES = {
     "deepseek": "https://deepseek.ai/blog",
     "huggingface": "https://huggingface.co/blog",
-    "arxiv": "https://arxiv.org/list/cs.AI/new",
+    "arxiv": "https://arxiv.org/list/cs.AI/recent",
 }
 
 # Create directories if needed
@@ -61,17 +62,6 @@ def fetch_soup(url):
     return BeautifulSoup(response.content, "html.parser")
 
 
-def extract_deepseek():
-    soup = fetch_soup(SITES["deepseek"])
-    articles = soup.select("a[href*='/blog/']")
-    seen = set()
-    for a in articles:
-        href = a["href"]
-        if href not in seen:
-            seen.add(href)
-            yield f"https://deepseek.ai{href}"
-
-
 def extract_huggingface():
     for tag in [
         "tag=diffusion",
@@ -87,11 +77,11 @@ def extract_huggingface():
 
 
 def extract_arxiv():
-    soup = fetch_soup(SITES["arxiv"])
-    return [
-        f"https://arxiv.org{a['href']}"
-        for a in soup.select("dt > span.list-identifier a[title='Abstract']")
-    ]
+    soup = fetch_soup(SITES["arxiv"])  # Pass a dummy URL for the mock
+    articles = soup.select("a[title='View HTML']")
+    print(f"found {len(articles)} articles on arxiv")
+    for a in articles:
+        yield a["href"]
 
 
 def parse_article(url):
@@ -110,15 +100,11 @@ def parse_article(url):
     with open(folder_path / "article.txt", "w", encoding="utf-8") as f:
         f.write(text)
 
-    # Extract tables
-    tables = soup.find_all("table")
-    for i, table in enumerate(tables):
-        df = pd.read_html(str(table))[0]
-        df.to_csv(folder_path / f"table_{i+1}.csv", index=False)
-
     # Extract images
     for i, img in enumerate(soup.find_all("img")):
         src = img.get("src")
+        if "arxiv" in url:
+            src = url + "/" + src
         alt = img.get("alt", "")
         if not src or "data:image" in src:
             continue
@@ -128,13 +114,18 @@ def parse_article(url):
                 src = domain + src
             img_data = requests.get(src).content
             ext = Path(src).suffix or ".jpg"
-            if ext == ".svg":
+            if Path(src).suffix == ".svg" or Path(src).suffix == ".jpeg":
                 continue
             img_path = folder_path / f"image_{i+1}{ext}"
             with open(img_path, "wb") as f:
                 f.write(img_data)
+            image = Image.open(img_path)
+            if image.size == (200, 200) or image.size == (0, 0):
+                img_path.unlink()
+                continue
             with open(folder_path / f"image_{i+1}_alt.txt", "w", encoding="utf-8") as f:
                 f.write(alt)
+
         except Exception as e:
             print(f"[Warning] Failed to fetch image {src}: {e}")
 
@@ -146,9 +137,8 @@ def main():
     new_entries = []
 
     for site_name, extractor in {
-        # "deepseek": extract_deepseek,
-        "huggingface": extract_huggingface,
-        # "arxiv": extract_arxiv,
+        # "huggingface": extract_huggingface,
+        "arxiv": extract_arxiv,
     }.items():
         print(f"Processing site: {site_name}")
         for url in extractor():

@@ -3,7 +3,7 @@ voices:
     tts: bark
     engine_params:
       voice_id: "narrator"
-      bark_id: C:\\Users\\LVY-BACKUP_2\\Desktop\\auto_youtube\\suno_ai_voices\\english\\en_speaker_6.npz
+      bark_id: /media/kornellewy/jan_dysk_3/auto_youtube/suno_ai_voices/english/en_speaker_6.npz
       ffmpeg_params : ""
   cyborg:
     tts: bark

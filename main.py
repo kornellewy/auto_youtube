@@ -10,12 +10,14 @@ from moviepy import (
     CompositeVideoClip,
     VideoFileClip,
     afx,
+    CompositeAudioClip,
 )
 import cv2
 import numpy as np
 from moviepy.video.fx import FadeIn, Resize, FadeOut, SlideIn, SlideOut
 from transformers import AutoProcessor, AutoModel
 from scipy.io import wavfile
+import nltk
 
 # import noisereduce
 import torch
@@ -41,8 +43,8 @@ BACKGROUND_MOVIE_PATH = Path(
 )
 voice_id_to_face_images_map = {
     "narrator": (
-        Path(__file__).parent / "media" / "images" / "philosofer.png",
-        Path(__file__).parent / "media" / "images" / "philosofer.png",
+        Path(__file__).parent / "media" / "images" / "rockefeller.png",
+        Path(__file__).parent / "media" / "images" / "rockefeller_month_open.png",
     ),
     "cyborg": (
         Path(__file__).parent / "media" / "images" / "rockefeller.png",
@@ -118,6 +120,67 @@ def generate_tts(text, voice_id, engine, script_name, script_sentence_id):
             str(path),
             rate=sampling_rate,
             data=speech_values,
+        )
+
+    return path
+
+
+def generate_tts_long(text, voice_id, engine, script_name, script_sentence_id):
+    path = (
+        Path(__file__).parent / "voices" / f"{script_name}___{script_sentence_id}.wav"
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    print(
+        f"Generating TTS for script_sentence_id {script_sentence_id} with voice {voice_id} using {engine} engine"
+    )
+    if path.exists():
+        return path
+
+    if engine == "bark":
+        sentences = nltk.sent_tokenize(text)
+        chunks = [""]
+        token_counter = 0
+        for sentence in sentences:
+            current_tokens = len(nltk.Text(sentence))
+            if token_counter + current_tokens <= 250:
+                token_counter = token_counter + current_tokens
+                chunks[-1] = chunks[-1] + " " + sentence
+            else:
+                chunks.append(sentence)
+                token_counter = current_tokens
+        audio_arrays = []
+        for prompt in chunks:
+            inputs = processor(
+                text=[prompt],
+                return_tensors="pt",
+                voice_preset=voice_id,
+            )
+            inputs = {
+                k: v.to(device) if isinstance(v, torch.Tensor) else v
+                for k, v in inputs.items()
+            }
+            inputs["history_prompt"] = {
+                k: v.to(device) if isinstance(v, torch.Tensor) else v
+                for k, v in inputs["history_prompt"].items()
+            }
+            with torch.no_grad():
+                speech_values = model.generate(
+                    input_ids=inputs["input_ids"],
+                    attention_mask=inputs["attention_mask"],
+                    pad_token_id=processor.tokenizer.pad_token_id,
+                    do_sample=True,
+                    temperature=0.8,
+                    history_prompt=inputs["history_prompt"],
+                )
+
+            sampling_rate = model.config.codec_config.sampling_rate
+            speech_values = speech_values.cpu().numpy().squeeze().astype(np.float32)
+            audio_arrays.append(speech_values)
+        combined_audio = np.concatenate(audio_arrays)
+        wavfile.write(
+            str(path),
+            rate=sampling_rate,
+            data=combined_audio,
         )
 
     return path
@@ -236,7 +299,7 @@ def build_video_blocks(blocks, config, script_name):
         engine = config["voices"][voice]["tts"]
         voice_id = config["voices"][voice]["engine_params"]["bark_id"]
 
-        voice_file = generate_tts(text, voice_id, engine, script_name, block_idx)
+        voice_file = generate_tts_long(text, voice_id, engine, script_name, block_idx)
         # noise_reduction(str(voice_file), str(voice_file))
         # continue
         audio_clip = AudioFileClip(str(voice_file))
@@ -282,7 +345,12 @@ def main():
     config_path = Path(__file__).parent / "config.yaml"
     config = yaml.safe_load(config_path.read_text())
 
-    script_path = Path(__file__).parent / "projects" / "scripts" / "ai_history_1.txt"
+    script_path = (
+        Path(__file__).parent
+        / "projects"
+        / "scripts"
+        / "08_06_2025_haggingface_smolvam.txt"
+    )
     blocks = parse_script(script_path)
 
     video_clips = build_video_blocks(blocks, config, script_path.stem)

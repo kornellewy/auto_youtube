@@ -107,15 +107,17 @@ if __name__ == "__main__":
         nltk.download("punkt")
 
     generator = VideoScriptGenerator(
-        default_photo="alan_turing_general", default_anim="zoomin"
+        default_photo="alan_turing1", default_anim="zoomin"
     )
 
     # Define file paths
     input_dir = Path("./projects/raw_scripts")
     output_dir = Path("./projects/scripts")
 
-    input_file = input_dir / "08_06_2025_haggingface_smolvam.txt"
-    output_file = output_dir / "08_06_2025_haggingface_smolvam.txt"
+    input_file = input_dir / "03_07_2025_DoRA_Weight-Decomposed_Low-Rank_Adaptation.txt"
+    output_file = (
+        output_dir / "03_07_2025_DoRA_Weight-Decomposed_Low-Rank_Adaptation.txt"
+    )
 
     input_text_content = generator.load_text_content(input_file)
 

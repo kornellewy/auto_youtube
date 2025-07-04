@@ -178,3 +178,5 @@ voices/*
 *.wav
 *.mp3
 *.mp4
+projects/*
+scraped_articles/*

@@ -123,7 +123,7 @@ def parse_article(url):
             if image.size == (200, 200) or image.size == (0, 0):
                 img_path.unlink()
                 continue
-            with open(folder_path / f"image_{i+1}_alt.txt", "w", encoding="utf-8") as f:
+            with open(folder_path / f"image_{i+1}.txt", "w", encoding="utf-8") as f:
                 f.write(alt)
 
         except Exception as e:
@@ -165,5 +165,12 @@ def main():
         print("No new articles found.")
 
 
+def main_single(article_url: str):
+    title = parse_article(article_url)
+    print(f"Processed article: {title}")
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    article_url = "https://arxiv.org/html/2402.09353v6"  # Example URL
+    main_single(article_url)

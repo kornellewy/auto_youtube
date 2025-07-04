@@ -7,6 +7,7 @@ from moviepy import (
     ImageClip,
     CompositeVideoClip,
     concatenate_videoclips,
+    concatenate_audioclips,
     CompositeVideoClip,
     VideoFileClip,
     afx,
@@ -18,6 +19,8 @@ from moviepy.video.fx import FadeIn, Resize, FadeOut, SlideIn, SlideOut
 from transformers import AutoProcessor, AutoModel
 from scipy.io import wavfile
 import nltk
+import json
+import whisper_timestamped as whisper
 
 # import noisereduce
 import torch
@@ -25,17 +28,11 @@ import torch
 from helpers.moviepy_zoom_in_effect import zoom_in_effect
 
 
-processor = AutoProcessor.from_pretrained("suno/bark")
-model = AutoModel.from_pretrained("suno/bark")
-model.eval()
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-
 # Parse tag line
 TAG_PATTERN = re.compile(r"\[(.*?)\]")
 
 # TODO: remove add bc debug
-BACKGROUND_RES = (640, 480)  # (1920, 1080)
+BACKGROUND_RES = (1920, 1080)  # (1920, 1080)
 TARGET_IMAGE_RES = (int(BACKGROUND_RES[0] * 0.7), int(BACKGROUND_RES[1] * 0.7))
 TALKING_HEAD_RES = (int(BACKGROUND_RES[0] * 0.4), int(BACKGROUND_RES[1] * 0.4))
 BACKGROUND_MOVIE_PATH = Path(
@@ -65,6 +62,28 @@ def resize_keep_aspect_no_padding(img, target_size):
 
     resized = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
     return resized
+
+
+def resize_keep_aspect_with_padding(img, target_size):
+    target_w, target_h = target_size
+
+    h, w = img.shape[:2]
+    scale = min(target_w / w, target_h / h)
+    new_w = int(w * scale)
+    new_h = int(h * scale)
+
+    resized = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+    # Create black canvas
+    result = np.zeros((target_h, target_w, 3), dtype=np.uint8)
+
+    # Compute top-left corner for centering
+    x_offset = (target_w - new_w) // 2
+    y_offset = (target_h - new_h) // 2
+
+    # Paste resized image onto black canvas
+    result[y_offset : y_offset + new_h, x_offset : x_offset + new_w] = resized
+    return result
 
 
 def noise_reduction(input_path, output_path, prop_decrease=1.0):
@@ -126,6 +145,7 @@ def generate_tts(text, voice_id, engine, script_name, script_sentence_id):
 
 
 def generate_tts_long(text, voice_id, engine, script_name, script_sentence_id):
+
     path = (
         Path(__file__).parent / "voices" / f"{script_name}___{script_sentence_id}.wav"
     )
@@ -135,6 +155,13 @@ def generate_tts_long(text, voice_id, engine, script_name, script_sentence_id):
     )
     if path.exists():
         return path
+
+    # load model
+    processor = AutoProcessor.from_pretrained("suno/bark")
+    model = AutoModel.from_pretrained("suno/bark")
+    model.eval()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
 
     if engine == "bark":
         sentences = nltk.sent_tokenize(text)
@@ -183,6 +210,8 @@ def generate_tts_long(text, voice_id, engine, script_name, script_sentence_id):
             data=combined_audio,
         )
 
+    del model
+    del processor
     return path
 
 
@@ -308,6 +337,8 @@ def build_video_blocks(blocks, config, script_name):
         image_path = media_path / f"{image_id}.jpg"
         if not image_path.exists():
             image_path = media_path / f"{image_id}.png"
+        if not image_path.exists():
+            image_path = media_path / f"{image_id}.jpeg"
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = resize_keep_aspect_no_padding(image, TARGET_IMAGE_RES)
@@ -320,17 +351,17 @@ def build_video_blocks(blocks, config, script_name):
         # talking head to 1
         # konfrence room to 2
         # show_vide_scene to 3
-        talking_head = get_talking_head(voice, audio_clip.duration)
+        # talking_head = get_talking_head(voice, audio_clip.duration)
 
         final = image_clip.with_audio(audio_clip)
         final = final.with_duration(audio_clip.duration)
         background = background.with_duration(audio_clip.duration)
         background.layer = 0
         final.layer = 1
-        talking_head.layer = 2
+        # talking_head.layer = 2
         final = final.with_position(("center", "center"), relative=True)
-        talking_head = talking_head.with_position(("left", "bottom"), relative=True)
-        composite = CompositeVideoClip([background, final, talking_head])
+        # talking_head = talking_head.with_position(("left", "bottom"), relative=True)
+        composite = CompositeVideoClip([background, final])
 
         # composite.write_videofile(
         #     "./test.mp4", fps=30, audio_fps=44100, codec="libx264", audio_codec="aac"
@@ -341,6 +372,137 @@ def build_video_blocks(blocks, config, script_name):
     return clips
 
 
+def get_transcript_from_audio(audio_file_path, transcript_path):
+    if Path(transcript_path).exists():
+        with open(transcript_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    else:
+        audio = whisper.load_audio(audio_file_path)
+        model = whisper.load_model("tiny", device="cuda")
+        result = whisper.transcribe(model, audio, language="en")
+        # Save transcript to file
+        with open(transcript_path, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+        del model
+        del audio
+    return result
+
+
+def build_video_blocks_from_article(blocks, config, script_name):
+    media_path = Path(__file__).parent / "media" / "images"
+    audio_clips = []
+    video_clips = []
+    downloaded_article_dir_path = (
+        Path(__file__).parent / config["downloaded_article_dir_path"]
+    )
+
+    all_id_to_image = list(downloaded_article_dir_path.rglob("*.png"))
+    all_id_to_image += list(downloaded_article_dir_path.rglob("*.jpg"))
+    all_id_to_image += list(downloaded_article_dir_path.rglob("*.jpeg"))
+    all_id_to_image = {
+        int(image_path.stem.replace("image_", "")): image_path
+        for image_path in all_id_to_image
+        if image_path.stem.startswith("image_")
+    }
+
+    # split text into blocks bs multiple figure refrence in single pice of text
+    new_blocks_all = []
+    for block in blocks:
+        text = block["text"]
+        if "figure" in text.lower():
+            # Count how many times "figure" appears
+            figures_per_block = sum(
+                1 for word in text.lower().split() if "figure" in word
+            )
+
+            if figures_per_block > 1:
+                # Split text into sentences
+                sentences = text.split(".")
+                sentences = [s.strip() for s in sentences if s.strip()]  # remove empty
+
+                current_block_sentences = []
+                figure_count = 0
+
+                for sentence in sentences:
+                    current_block_sentences.append(sentence)
+                    if "figure" in sentence.lower():
+                        figure_count += 1
+                        # When one 'figure' is included, make a block
+                        new_text = ". ".join(current_block_sentences).strip() + "."
+                        new_block = block.copy()
+                        new_block["text"] = new_text
+                        new_blocks_all.append(new_block)
+                        current_block_sentences = []
+
+                # Add any leftover sentences as a block (if not empty)
+                if current_block_sentences:
+                    new_text = ". ".join(current_block_sentences).strip() + "."
+                    new_block = block.copy()
+                    new_block["text"] = new_text
+                    new_blocks_all.append(new_block)
+
+            else:
+                new_blocks_all.append(block)
+        else:
+            new_blocks_all.append(block)
+
+    print(f"len of blocks {len(blocks)}")
+    old_picture = "/media/kornellewy/jan_dysk_3/auto_youtube/scraped_articles/DoRA_Weight-Decomposed_Low-Rank_Adaptation/thumbnail.png"
+    for block_idx, block in enumerate(blocks):
+        print("block_idx", block_idx)
+        # print("text", block["text"])
+        print("################################")
+        text = block["text"]
+        tags = block["tags"]
+
+        voice = tags["voice"]
+        engine = config["voices"][voice]["tts"]
+        voice_id = config["voices"][voice]["engine_params"]["bark_id"]
+
+        voice_file = generate_tts_long(text, voice_id, engine, script_name, block_idx)
+        audio_clip = AudioFileClip(str(voice_file))
+        if "figure " in text.lower():
+            figure_number = text.lower().split("figure ")[1].split(" ")[0][0]
+            if figure_number.isdigit():
+                figure_number = int(figure_number)
+                image_path = all_id_to_image[figure_number]
+                block["photo"] = image_path
+                old_picture = image_path
+
+        print("picture", old_picture)
+        image = cv2.imread(old_picture)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = resize_keep_aspect_with_padding(image, TARGET_IMAGE_RES)
+        image_clip = ImageClip(image)
+
+        image_clip = image_clip.with_duration(audio_clip.duration)
+        final_clip = image_clip.with_audio(audio_clip)
+        final_clip = final_clip.with_duration(audio_clip.duration)
+
+        audio_clips.append(audio_clip)
+        video_clips.append(final_clip)
+
+    return video_clips
+
+    # audio_clips = concatenate_audioclips(audio_clips)
+    # audio_path = Path(__file__).parent / "voices" / f"{script_name}.mp3"
+    # if not audio_path.exists():
+    #     print(f"Saving audio to {audio_path}")
+    #     audio_clips.write_audiofile(str(audio_path))
+
+    # get transcripts
+    # transcript_path = (
+    #     Path(__file__).parent / "voices" / f"{script_name}_transcript.json"
+    # )
+    # transcript = get_transcript_from_audio(str(audio_path), transcript_path)
+    # print(json.dumps(transcript, indent=2, ensure_ascii=False))
+    # start_times = [0]
+    # for segment in transcript["segments"]:
+    #     if "figure" in segment['text'].lower():
+    #         start_times.append(segment['start'])
+    # TODO: in trascipt number of figures are in words, so its hard to conect them to given image from paper
+
+
 def main():
     config_path = Path(__file__).parent / "config.yaml"
     config = yaml.safe_load(config_path.read_text())
@@ -349,14 +511,18 @@ def main():
         Path(__file__).parent
         / "projects"
         / "scripts"
-        / "08_06_2025_haggingface_smolvam.txt"
+        / "03_07_2025_DoRA_Weight-Decomposed_Low-Rank_Adaptation.txt"
+    )
+    config["downloaded_article_dir_path"] = (
+        "scraped_articles/DoRA_Weight-Decomposed_Low-Rank_Adaptation"
     )
     blocks = parse_script(script_path)
+    # blocks = blocks[:3]
 
-    video_clips = build_video_blocks(blocks, config, script_path.stem)
+    video_clips = build_video_blocks_from_article(blocks, config, script_path.stem)
 
     # TODO: remove add bc debug
-    video_clips = video_clips[:3]
+    # video_clips = video_clips[:3]
 
     final_video = concatenate_videoclips(video_clips)
     output_path = Path(__file__).parent / "output" / f"{script_path.stem}.mp4"

@@ -1,0 +1,10 @@
+joke: ADD
+thumbnails:
+- ADD
+- ADD
+- ADD
+outro_video: ADD
+default_photo: alan_turing1
+default_anim: zoomin
+paper_url: https://arxiv.org/html/2507.20028v1
+peper_work_dir: scraped_articles/TAPS_Frustratingly_Simple_Test_Time_Active_Learning_for_VLMs

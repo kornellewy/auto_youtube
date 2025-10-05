@@ -1,0 +1,10 @@
+joke: ADD
+thumbnails:
+- ADD
+- ADD
+- ADD
+outro_video: ADD
+default_photo: alan_turing1
+default_anim: zoomin
+paper_url: https://arxiv.org/html/2505.16839v3
+peper_work_dir: scraped_articles/LaViDa_A_Large_Diffusion_Language_Model_for_Multimodal_Understanding

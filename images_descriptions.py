@@ -1,13 +1,14 @@
 import google.generativeai as genai
 from pathlib import Path
 import os
+import time
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-def describe_image(image_path, model_name="gemini-2.5-flash-lite-preview-06-17"):
+def describe_image(image_path, model_name="gemini-2.5-flash-lite"):
     try:
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         model = genai.GenerativeModel(model_name)
@@ -46,8 +47,11 @@ def process_images_in_directory(directory_path):
 
     for image_path in directory_path.iterdir():
         if image_path.is_file() and image_path.suffix.lower() in image_extensions:
+            if image_path.stem.lower().startswith("table"):
+                continue
             print(f"\n--- Processing: {image_path.name} ---")
             normal_desc, graph_desc = describe_image(image_path)
+            time.sleep(30)
 
             if normal_desc or graph_desc:
                 # Create the .txt file path with the same stem as the image
@@ -74,8 +78,6 @@ def process_images_in_directory(directory_path):
 
 
 if __name__ == "__main__":
-    image_directory = Path(
-        "scraped_articles/OmniGen2_Exploration_to_Advanced_Multimodal_Generation"
-    )
+    image_directory = Path("/media/kornellewy/jan_dysk_3/auto_youtube/media/raw")
 
     process_images_in_directory(image_directory)

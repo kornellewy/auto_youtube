@@ -180,3 +180,4 @@ voices/*
 *.mp4
 projects/*
 scraped_articles/*
+*.json

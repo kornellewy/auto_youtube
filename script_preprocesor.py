@@ -80,10 +80,17 @@ class VideoScriptGenerator:
 
             # Content-based photo selection logic
 
+            current_animation = "stationary"
+            if sentence.startswith("***"):
+                current_photo = "###heading"
+                current_transitionin = "fadein"
+                current_transitionout = "fadeout"
+                current_animation = "stationary"
+
             control_line = (
                 f"[Photo: {current_photo}] "
                 f"[Voice: {self.default_voice}] "
-                f"[Anim: {current_photo}] "
+                f"[Anim: {current_animation}] "
                 f"[transitionin: {current_transitionin}] "
                 f"[transitionout: {current_transitionout}]"
             )
@@ -114,9 +121,13 @@ if __name__ == "__main__":
     input_dir = Path("./projects/raw_scripts")
     output_dir = Path("./projects/scripts")
 
-    input_file = input_dir / "03_07_2025_DoRA_Weight-Decomposed_Low-Rank_Adaptation.txt"
+    input_file = (
+        input_dir
+        / "24_07_2025_DeepSeek_LLM_Scaling_Open-Source_Language_Models_with_Longtermism.txt"
+    )
     output_file = (
-        output_dir / "03_07_2025_DoRA_Weight-Decomposed_Low-Rank_Adaptation.txt"
+        output_dir
+        / "24_07_2025_DeepSeek_LLM_Scaling_Open-Source_Language_Models_with_Longtermism.txt"
     )
 
     input_text_content = generator.load_text_content(input_file)

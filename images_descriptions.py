@@ -47,11 +47,14 @@ def process_images_in_directory(directory_path):
 
     for image_path in directory_path.iterdir():
         if image_path.is_file() and image_path.suffix.lower() in image_extensions:
-            if image_path.stem.lower().startswith("table"):
+            output_txt_path = image_path.with_suffix(".txt")
+            if output_txt_path.exists():
                 continue
+            # if image_path.stem.lower().startswith("table"):
+            #     continue
             print(f"\n--- Processing: {image_path.name} ---")
             normal_desc, graph_desc = describe_image(image_path)
-            time.sleep(30)
+            time.sleep(5)
 
             if normal_desc or graph_desc:
                 # Create the .txt file path with the same stem as the image

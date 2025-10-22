@@ -16,6 +16,8 @@ from yt_video_upload import YoutubeUploader
 from yt_shudler import generate_calendar
 from yt_thumbnail_scorer import ThumbnailScorer
 from yt_script_scorer import WriterScorer
+from create_infografic import paper_to_infographics
+from images_descriptions import process_images_in_directory
 
 
 ### pipline do dodaniwa nowych memwow
@@ -35,11 +37,10 @@ from yt_script_scorer import WriterScorer
 # source_and_topic_gather.py
 all_papers = [
     # dodanie prezentacji na starcie ktora szybko miw i cachy co jest w filmie
-    "https://arxiv.org/html/2509.14353v1",
-    # "https://arxiv.org/html/2509.26507v1",
-    # https://arxiv.org/html/2509.25454v2
-    # https://arxiv.org/html/2509.22622v1
-    
+    "https://arxiv.org/html/2507.17702v3",
+    # "https://arxiv.org/html/2510.18234v1",
+    # "https://arxiv.org/html/2507.16003v1",
+    # "https://arxiv.org/html/2510.13220v1"
 ]
 papers_dir_paths = []
 for paper in all_papers:
@@ -47,22 +48,31 @@ for paper in all_papers:
     papers_dir_paths.append(Path(folder_path))
 # scripts_writer.py
 jokes_strings = [
-    """
-    DreamControl: diffusion models and Reinforcement Learning conect together like power rengers creating super robot.
+    """ 
+    mix of experst is like mist of specliized people, economic do that, and in comunist cuntries they decite about that
     """,
     # """
-    # Braine inspired ai architerute, that all archteutes are ? 
-    # """
-    # """
-    # using monte carlo menthod like in chesst, so leangue is some kind of game ? 
+    # ocr, give from communist china party to every other goverment to track its citisents 
     # """,
     # """
-    # ai steven speaberg
+    # Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
+    # """,
     # """
+    # evolution that makes Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
+    # """,
 
 ]
 
+# create infograifc
+for paper_dir_path in papers_dir_paths:
+    article_text = Path(paper_dir_path).joinpath("article.txt").read_text()
+    paper_to_infographics(article_text, paper_dir_path)
 
+# describe images 
+for paper_dir_path in papers_dir_paths:
+    process_images_in_directory(Path(paper_dir_path))
+
+# script writing
 write_scripts_paths = []
 for folder_path in papers_dir_paths:
     output_script_path = Path(folder_path) / f"{Path(folder_path).stem}.txt"
@@ -72,7 +82,7 @@ for folder_path in papers_dir_paths:
         joke=random.choice(jokes_strings),
     )
     write_scripts_paths.append(output_script_path)
-    time.sleep(30)  # Sleep to avoid rate limiting
+    # time.sleep(30)  # Sleep to avoid rate limiting
 # # script_preprocesor.py
 generator = VideoScriptGenerator(default_photo="alan_turing1", default_anim="zoomin")
 converted_scripts_paths = []

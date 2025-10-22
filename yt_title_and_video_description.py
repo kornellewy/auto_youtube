@@ -111,8 +111,33 @@ class YTMetaFactory:
         title = self._call_gemini(PROMPT_TITLE.format(script=script))
         description = self._call_gemini(PROMPT_DESCRIPTION.format(script=script))
         hashtags = self._call_gemini(PROMPT_HASHTAGS.format(script=script))
+        hashtags = self.sanitize_tags(hashtags)
 
         return {"title": title, "description": description, "hashtags": hashtags}
+
+    @staticmethod
+    def sanitize_tags(tags):
+        clean_tags = []
+        total_len = 0
+        tags = tags.split(" ")
+        for tag in tags:
+            if not tag:
+                continue
+            tag = tag.strip()
+
+            # YouTube limit: 30 chars max per tag
+            if len(tag) > 30:
+                tag = tag[:30]
+
+            # Enforce total <= 500 chars (including commas)
+            if total_len + len(tag) <= 400:
+                clean_tags.append(tag)
+                total_len += len(tag)
+            else:
+                break
+        clean_tags = ",".join(clean_tags)
+        return clean_tags
+
 
     def save_metadata(self, script_path: Path, out_dir: Path) -> None:
         """Writes three .txt files next to the original script."""
@@ -122,8 +147,8 @@ class YTMetaFactory:
             (out_dir / "title.txt").write_text(meta["title"], encoding="utf-8")
         if not (out_dir / "description.txt").exists():
             (out_dir / "description.txt").write_text(meta["description"], encoding="utf-8")
-        if not (out_dir / "hashtags.txt").exists():
-            (out_dir / "hashtags.txt").write_text(meta["hashtags"], encoding="utf-8")
+        # if not (out_dir / "hashtags.txt").exists():
+        (out_dir / "hashtags.txt").write_text(meta["hashtags"], encoding="utf-8")
         print(f"[OK] Metadata saved for {script_path.stem}")
 
 # ------------------------------------------------------------------

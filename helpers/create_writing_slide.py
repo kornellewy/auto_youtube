@@ -3,21 +3,26 @@ import numpy as np
 import cv2
 import moviepy as mp
 from PIL import Image, ImageDraw, ImageFont
+from pathlib import Path
+import random
 
-FONT_NAME = "DejaVuSans.ttf"
-FONT_COLOUR = (0, 120, 0)
+FONT_NAME = "/usr/share/fonts/urw-base35/URWGothic-Demi.otf"
+FONT_COLOUR = (0, 90, 0)
 BG_COLOUR = (0, 0, 0)
 FPS = 24
+BACKGROUND_DATABASE_PATH = Path(__file__).parent / "sides_backgrounds"
 
 
 def create_writing_title(
     text: str,
     size: tuple[int, int] = (1920, 1080),
     total_duration: float = 6.0,
-    writing_ratio: float = 0.5,
+    writing_ratio: float = 0.75,
 ) -> mp.VideoClip:
     w, h = size
     writing_time = total_duration * writing_ratio
+    background_image_path = random.choice([p for p in BACKGROUND_DATABASE_PATH.glob("*.jpeg")])
+
 
     # ---------- 1.  FIND BEST FONT SIZE (once) ----------
     for size_candidate in range(200, 10, -10):
@@ -25,7 +30,8 @@ def create_writing_title(
             font = ImageFont.truetype(FONT_NAME, size_candidate)
         except OSError:
             font = ImageFont.load_default()
-        img = Image.new("RGB", (w, h), BG_COLOUR)
+        # img = Image.new("RGB", (w, h), BG_COLOUR)
+        img = Image.open(background_image_path)
         draw = ImageDraw.Draw(img)
         tw, th = draw.textbbox((0, 0), text, font=font)[2:4]
         if tw <= w * 0.9 and th <= h * 0.9:  # fits with 10 % margin
@@ -47,7 +53,8 @@ def create_writing_title(
             idx = int(len(text) * t / writing_time)
             partial = text[: max(0, idx)]
 
-        img = Image.new("RGB", (w, h), BG_COLOUR)
+        # img = Image.new("RGB", (w, h), BG_COLOUR)
+        img = Image.open(background_image_path)
         draw = ImageDraw.Draw(img)
         draw.text((x, y), partial, font=best_font, fill=FONT_COLOUR)
         return np.array(img)[:, :, ::-1]
@@ -58,4 +65,4 @@ def create_writing_title(
 # ---------------- demo ----------------
 if __name__ == "__main__":
     clip = create_writing_title("Artistic Turtles Unite!")
-    clip.write_videofile("writing_title.mp4", preset="superfast")
+    clip.write_videofile(str(Path(__file__).parent/ "writing_title.mp4") , preset="superfast")

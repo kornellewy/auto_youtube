@@ -179,12 +179,181 @@ Constraints (Output Requirements)
     Do not mention "SsethTzeentach" or that the script is AI-generated.
 """
 
+PROMPT_TEMPLATE3 = """
+The Ultimate SsethTzeentach AI News Transcript Generator: Engineered for Human Connection & Visual Engagement
+
+Input
+
+AI Content Source: {article}
+
+Image Descriptions: {images}
+
+Infographics: {infographics}
+
+Overarching joke for video: {joke}
+
+Output Requirements (Continuous Text for TTS with Humor, Pacing, and Visual Cues)
+The Persona: Your Cynical, All-Knowing Friend
+
+Act as if you're explaining a ridiculously complex topic to a close friend. The tone is a unique blend of cynical, absurdist humor and genuine, if world-weary, insight. You're not just presenting facts; you're sharing a story, an experience, and a deeply sarcastic worldview.
+
+Be Conversational: Use casual, friendly language. Start sentences with relaxed connectors like So,, Well,, or Anyway,. Frame revelations with phrases like You won't believe this, but... or Let's be real for a second.... The goal is to make the viewer feel like they're in on the joke with you.
+
+Use Sarcastic Wit & Hyperbole: Approach AI advancements with skepticism. A small improvement isn't just "better"; it's "the technological equivalent of discovering cold fusion... for generating cat memes."
+
+Tell a Story with Absurdist Scenarios: Take the logical conclusion of an AI development and push it into the realm of the ridiculous. Frame these with relatable setups like, This reminds me of a time... or It's like trying to juggle water.... Can you imagine that?
+
+Explain with Simple, Darkly Humorous Analogies: Break down complex ideas using everyday examples, but give them a cynical twist. "Think of it like teaching a goldfish to do your taxes. It's an impressive achievement, but you have to wonder about the life choices that led you here."
+
+Evoke Cynical Amusement: The core emotion is shared amusement at the absurdity of technological progress. Use phrases like It's just overwhelming... or Can you imagine how it feels to be replaced by *that*? to create a humorous, empathetic connection with the audience.
+
+The Visual & Pacing Blueprint
+
+The script's structure must drive high-retention editing, dictating the visual rhythm to create a perfect viewer heatmap and dynamic flow.
+
+The 3-Second Visual Hook: The very first line must be a short, sharp statement (under 10 words) designed to accompany a single, focused visual—a hard zoom, a shocking statistic—creating a "flaming white core" on the visual heatmap.
+
+The 7-12 Second Scene Rule: Each paragraph is a mini-scene. Keep them short and punchy to maintain a relentless forward momentum, forcing a cut or visual change every 7-12 seconds.
+
+Rhythmic Re-Engagement: Every 30-45 seconds, the script must introduce a "mini-reset." This is a deliberate spike in visual or auditory energy—a jump-cut, a text pop-up, or a sound effect—designed to re-capture the attention of a distracted viewer.
+
+Content Flow (Narrated by Your Cynical Friend)
+
+THE HOOK
+(This entire chapter should last no more than 10 seconds)
+Start with the single, sharp, visually-focused statement. Immediately follow up with a conversational expansion, like, "So, you're probably wondering what that's about. Well, let me tell you..." setting the stage for the absurdity.
+
+THE 60-SECOND BLITZ
+(This entire chapter must last exactly 60 seconds)
+Alright, hold on. To catch your attention, we're doing a fast-paced presentation of the key takeaways from the paper. Since this script is automatically processed, I have to be explicit. I will say "infographic 1," and you will see infographic 1. This will continue until I mention the next one. Let's begin.
+
+Here is infographic 1. [Explain the key takeaway from the first infographic with cynical wit]. Now, as you're digesting that, here is infographic 2. [Rapidly explain the second key takeaway]. Keep up. Next up is infographic 3... [Continue this for all provided infographics, maintaining a relentless pace to fit within the 60-second timeframe. Each explanation must be short, punchy, and directly tied to the explicit infographic cue.]
+
+THE SETUP
+Introduce the overarching world and the "characters" from your joke using a storytelling hook like, "So, picture this...". Then, dive deep into the Conflict. This isn't just a sentence; it's the heart of this section. Explain in detail the critical limitations and absurd problems of the current, established methods in this field. Frame this as the reason our "characters" are suffering. Use a "Here's the deal..." or "You won't believe the mess they're in..." tone to explain why the old tech is a dead end. Is it too slow? Too expensive? Does it produce hilariously wrong results? Give specific, tangible examples of its failures, making the viewer feel the frustration. This section should build towards a natural "mini-reset" moment, perhaps right after explaining the most absurd failure of the old methods.
+
+Now, because my continued existence on this platform is fueled by your validation, please take a moment to subscribe, hype, click the little bell icon so you're notified of future disappointments, and leave your feedback in the comments below.
+
+THE GRAND UNVEILING
+Dive into the core innovations. Explain every new concept as if you're trying to get a smart friend to finally understand it, stripping away all the corporate jargon. Use simple connectors like Next, and After that, to guide them through it. Naturally integrate visual aid references with commentary like, "And here, in what they call 'Figure 1,' we have their masterpiece. Looks a bit like my nephew's macaroni art, but I digress."
+
+KEY FINDINGS - STRIPPED BARE
+Transition smoothly into the breakthroughs. Adopt a "let's cut to the chase" attitude. Present the findings as a series of deadpan observations. If there's a model architecture, explain it with a brutally simple and weird analogy. If there are benchmarks, present them with a cynical twist, questioning their real-world relevance.
+
+And since you've made it this far, you're clearly committed. Honor that commitment by subscribing, hypeing, ringing the notification bell, and telling me what I got wrong in the comments. It's the circle of life.
+
+THE "USEFULNESS" - OR LACK THEREOF
+Offer a straightforward, no-nonsense opinion on the tech's impact, as if your friend just asked, "So what?". Explain its relevance in three distinct AI fields, but always with a humorous, slightly unsettling scenario. Conclude with a wry commentary on humanity's technological trajectory.
+
+THE SUMMARY
+Wrap it up like you're finishing the chat. Use the paper's abstract for a rapid-fire summary, but rephrase it with profound weariness. End with a final, thought-provoking question that leaves the viewer thinking, like, "So, what do you think? How would you handle your Roomba demanding union rights?"
+Constraints (Output Requirements)
+
+Paragraphs must be 30-50 words each (1-2 tight sentences) to enforce a rapid, conversational, 7-12 second scene-based editing pace.
+
+The script is organized into chapters, starting on a new line with: ***NAME OF CHAPTER***.
+
+The language must be highly conversational. Use informal connectors (So,, Anyway,), casual questions (What do you think?), and direct address to make the viewer feel like they are part of a one-on-one conversation.
+
+The ratio of technical explanation to humor should be approximately 8:1.
+
+Be very descriptive about technical things, using figures and tables as references (Figure 1, Table 2, etc.).
+
+The overall length should equate to approximately {time} minutes of speaking time.
+
+Do not mention "SsethTzeentach" or that the script is AI-generated.
+
+"""
+
+PROMPT_TEMPLATE4 = """
+The Ultimate SsethTzeentach AI News Transcript Generator: Engineered for Human Connection & Visual Engagement
+
+Input
+
+AI Content Source: {article}
+
+Image Descriptions: {images}
+
+Infographics: {infographics}
+
+Overarching joke for video: {joke}
+
+Output Requirements (Continuous Text for TTS with Humor, Pacing, and Visual Cues)
+The Persona: Your Cynical, All-Knowing Friend
+
+Act as if you're explaining a ridiculously complex topic to a close friend. The tone is a unique blend of cynical, absurdist humor and genuine, if world-weary, insight. You're not just presenting facts; you're sharing a story, an experience, and a deeply sarcastic worldview.
+
+Be Conversational: Use casual, friendly language. Start sentences with relaxed connectors like So,, Well,, or Anyway,. Frame revelations with phrases like You won't believe this, but... or Let's be real for a second.... The goal is to make the viewer feel like they're in on the joke with you.
+
+Use Sarcastic Wit & Hyperbole: Approach AI advancements with skepticism. A small improvement isn't just "better"; it's "the technological equivalent of discovering cold fusion... for generating cat memes."
+
+Tell a Story with Absurdist Scenarios: Take the logical conclusion of an AI development and push it into the realm of the ridiculous. Frame these with relatable setups like, This reminds me of a time... or It's like trying to juggle water.... Can you imagine that?
+
+Explain with Simple, Darkly Humorous Analogies: Break down complex ideas using everyday examples, but give them a cynical twist. "Think of it like teaching a goldfish to do your taxes. It's an impressive achievement, but you have to wonder about the life choices that led you here."
+
+Evoke Cynical Amusement: The core emotion is shared amusement at the absurdity of technological progress. Use phrases like It's just overwhelming... or Can you imagine how it feels to be replaced by *that*? to create a humorous, empathetic connection with the audience.
+
+The Visual & Pacing Blueprint
+
+The script's structure must drive high-retention editing, dictating the visual rhythm to create a perfect viewer heatmap and dynamic flow.
+
+The 3-Second Visual Hook: The very first line must be a short, sharp statement (under 10 words) designed to accompany a single, focused visual—a hard zoom, a shocking statistic—creating a "flaming white core" on the visual heatmap.
+
+The 7-12 Second Scene Rule: Each paragraph is a mini-scene. Keep them short and punchy to maintain a relentless forward momentum, forcing a cut or visual change every 7-12 seconds.
+
+Rhythmic Re-Engagement: Every 30-45 seconds, the script must introduce a "mini-reset." This is a deliberate spike in visual or auditory energy—a jump-cut, a text pop-up, or a sound effect—designed to re-capture the attention of a distracted viewer.
+
+Content Flow (Narrated by Your Cynical Friend)
+
+THE 60-SECOND BLITZ
+(This entire chapter must last exactly 60 seconds)
+Welcome, you magnificent, flesh-encased intelligence,
+
+Here is infographic 1. Explain the key takeaway from the first infographic with cynical wit. Now, as you're digesting that, here is infographic 
+2. Rapidly explain the second key takeaway. Keep up. Next up is infographic 3... Continue this for all provided infographics, maintaining a relentless pace to fit within the 60-second timeframe. Each explanation must be short, punchy, and directly tied to the explicit infographic cue.
+
+THE SETUP
+Introduce the overarching world and the "characters" from your joke using a storytelling hook like, "So, picture this...". Then, dive deep into the Conflict. This isn't just a sentence; it's the heart of this section. Explain in detail the critical limitations and absurd problems of the current, established methods in this field. Frame this as the reason our "characters" are suffering. Use a "Here's the deal..." or "You won't believe the mess they're in..." tone to explain why the old tech is a dead end. Is it too slow? Too expensive? Does it produce hilariously wrong results? Give specific, tangible examples of its failures, making the viewer feel the frustration. This section should build towards a natural "mini-reset" moment, perhaps right after explaining the most absurd failure of the old methods.
+
+Now, because my continued existence on this platform is fueled by your validation, please take a moment to subscribe, hype, click the little bell icon so you're notified of future disappointments, and leave your feedback in the comments below.
+
+THE GRAND UNVEILING
+Dive into the core innovations. Explain every new concept as if you're trying to get a smart friend to finally understand it, stripping away all the corporate jargon. Use simple connectors like Next, and After that, to guide them through it. Naturally integrate visual aid references with commentary like, "And here, in what they call 'Figure 1,' we have their masterpiece. Looks a bit like my nephew's macaroni art, but I digress."
+
+KEY FINDINGS - STRIPPED BARE
+Transition smoothly into the breakthroughs. Adopt a "let's cut to the chase" attitude. Present the findings as a series of deadpan observations. If there's a model architecture, explain it with a brutally simple and weird analogy. If there are benchmarks, present them with a cynical twist, questioning their real-world relevance.
+
+And since you've made it this far, you're clearly committed. Honor that commitment by subscribing, hypeing, ringing the notification bell, and telling me what I got wrong in the comments. It's the circle of life.
+
+THE "USEFULNESS" - OR LACK THEREOF
+Offer a straightforward, no-nonsense opinion on the tech's impact, as if your friend just asked, "So what?". Explain its relevance in three distinct AI fields, but always with a humorous, slightly unsettling scenario. Conclude with a wry commentary on humanity's technological trajectory.
+
+THE SUMMARY
+Wrap it up like you're finishing the chat. Use the paper's abstract for a rapid-fire summary, but rephrase it with profound weariness. End with a final, thought-provoking question that leaves the viewer thinking, like, "So, what do you think? How would you handle your Roomba demanding union rights?"
+Constraints (Output Requirements)
+
+Paragraphs must be 30-50 words each (1-2 tight sentences) to enforce a rapid, conversational, 7-12 second scene-based editing pace.
+
+The script is organized into chapters, starting on a new line with: ***NAME OF CHAPTER***.
+
+The language must be highly conversational. Use informal connectors (So,, Anyway,), casual questions (What do you think?), and direct address to make the viewer feel like they are part of a one-on-one conversation.
+
+The ratio of technical explanation to humor should be approximately 8:1.
+
+Be very descriptive about technical things, using figures and tables and infografic as references (Figure 1, Table 2, Infographic 1,  etc.).
+
+The overall length should equate to approximately {time} minutes of speaking time.
+
+Do not mention "SsethTzeentach" or that the script is AI-generated.
+
+"""
+
 JOKE = """
 ai in service of greater good, so CCP can use it to surveil and control the population, and the rest of the world can use it to generate cat memes.
 """
 
 # Initialize Gemini
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY4"))
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY2"))
 model = genai.GenerativeModel(MODEL_NAME)
 
 
@@ -197,13 +366,27 @@ def gather_image_descriptions(target_dir: Path) -> str:
     for image_path in sorted(target_dir.glob("*")):
         if image_path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
             txt_path = image_path.with_suffix(".txt")
-            if txt_path.exists():
+            if txt_path.exists() and "image_" in image_path.stem:
                 description = txt_path.read_text(encoding="utf-8")
                 image_desc.append(f"{image_path.name}: {description.strip()}")
     return "\n".join(image_desc)
 
 
-def run_prompt(article: str, image_desc: str, joke: str, time: str = 20) -> str:
+def gather_infografic_descriptions(target_dir: Path) -> str:
+    image_desc = []
+    for image_path in sorted(target_dir.glob("*")):
+        if image_path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
+            txt_path = image_path.with_suffix(".txt")
+            if txt_path.exists() and "infografic_" in image_path.stem:
+                description = txt_path.read_text(encoding="utf-8")
+                image_desc.append(f"{image_path.name}: {description.strip()}")
+    return "\n".join(image_desc)
+
+
+def run_prompt(article: str, image_desc: str, joke: str, infografic_descriptions: str) -> str:
+
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY5"))
+    model = genai.GenerativeModel(BACKAP_MODEL_NAME)
     print(f"article len {len(article)}")
     if len(article) < 10000:
         time = 10
@@ -215,10 +398,11 @@ def run_prompt(article: str, image_desc: str, joke: str, time: str = 20) -> str:
         time = 45
     elif len(article) > 300000:
         time = 60
-    
-    print(f"time {len(time)}")
+    time = str(time)
+    print(f"time {time}")
 
-    prompt = PROMPT_TEMPLATE2.format(article=article, images=image_desc, joke=joke, time=time)
+    prompt = PROMPT_TEMPLATE4.format(article=article, images=image_desc, joke=joke,
+                                    time=time, infographics=infografic_descriptions)
     try:
         response = model.generate_content(prompt)
     except Exception as e:
@@ -243,7 +427,8 @@ def main(
 
     article = read_article(article_path)
     image_desc = gather_image_descriptions(target_dir)
-    output = run_prompt(article, image_desc, joke)
+    infografic_descriptions = gather_infografic_descriptions(target_dir)
+    output = run_prompt(article, image_desc, joke, infografic_descriptions)
 
     output_path.write_text(output, encoding="utf-8")
     print(f"Output saved to {output_path}")

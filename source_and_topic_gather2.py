@@ -330,6 +330,8 @@ def fetch_anxin_pdf_with_tables(url: str) -> list[Path]:
     doc.close()
     return output_path
 
+def fetch_anxin_tex(url: str) -> list[Path]:
+    url = url.replace("html", "src").replace("abs", "src")
 
 
 def main_single(article_url: str):

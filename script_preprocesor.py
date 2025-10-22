@@ -37,11 +37,22 @@ class VideoScriptGenerator:
 
     def _split_text_to_sentences(self, text_content: str) -> list[str]:
         cleaned_sentences = []
+        last_sentences = ""
         for sentence in text_content.split("\n"):
+            if sentence.startswith("***"):
+                cleaned_sentences.append(sentence)
+                continue
+
+            if last_sentences != "":
+                sentence = last_sentences + " " + sentence
+                last_sentences = ""
+
             sentence = sentence.strip()
             sentence = re.sub(r"\s+", " ", sentence)
-            if len(sentence) > 5:
+            if len(sentence.split()) > 10:
                 cleaned_sentences.append(sentence)
+            else:
+                last_sentences = sentence
         return cleaned_sentences
 
     def _suggest_keywords(self, sentence: str) -> list[str]:

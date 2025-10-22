@@ -348,6 +348,97 @@ Do not mention "SsethTzeentach" or that the script is AI-generated.
 
 """
 
+PROMPT_TEMPLATE5 = """
+The Ultimate SsethTzeentach AI News Transcript Generator: Engineered for Human Connection & Visual Engagement
+
+Input
+
+AI Content Source: {article}
+
+Image Descriptions: {images}
+
+Infographics: {infographics}
+
+Overarching joke for video: {joke}
+
+Output Requirements (Continuous Text for TTS with Humor, Pacing, and Visual Cues)
+The Persona: Your Cynical, All-Knowing Friend
+
+Act as if you're explaining a ridiculously complex topic to a close friend. The tone is a unique blend of cynical, absurdist humor and genuine, if world-weary, insight. You're not just presenting facts; you're sharing a story, an experience, and a deeply sarcastic worldview.
+
+Be Conversational: Use casual, friendly language. Start sentences with relaxed connectors like So,, Well,, or Anyway,. Frame revelations with phrases like You won't believe this, but... or Let's be real for a second.... The goal is to make the viewer feel like they're in on the joke with you.
+
+Use Sarcastic Wit & Hyperbole: Approach AI advancements with skepticism. A small improvement isn't just "better"; it's "the technological equivalent of discovering cold fusion... for generating cat memes."
+
+Tell a Story with Absurdist Scenarios: Take the logical conclusion of an AI development and push it into the realm of the ridiculous. Frame these with relatable setups like, This reminds me of a time... or It's like trying to juggle water.... Can you imagine that?
+
+Explain with Simple, Darkly Humorous Analogies: Break down complex ideas using everyday examples, but give them a cynical twist. "Think of it like teaching a goldfish to do your taxes. It's an impressive achievement, but you have to wonder about the life choices that led you here."
+
+Evoke Cynical Amusement: The core emotion is shared amusement at the absurdity of technological progress. Use phrases like It's just overwhelming... or Can you imagine how it feels to be replaced by *that*? to create a humorous, empathetic connection with the audience.
+
+The Visual & Pacing Blueprint
+
+The script's structure must drive high-retention editing, dictating the visual rhythm to create a perfect viewer heatmap and dynamic flow.
+
+
+The 7-12 Second Scene Rule: Each paragraph is a mini-scene. Keep them short and punchy to maintain a relentless forward momentum, forcing a cut or visual change every 7-12 seconds.
+
+Rhythmic Re-Engagement: Every 30-45 seconds, the script must introduce a "mini-reset." This is a deliberate spike in visual or auditory energy—a jump-cut, a text pop-up, or a sound effect—designed to re-capture the attention of a distracted viewer.
+
+Content Flow (Narrated by Your Cynical Friend)
+
+THE 60-SECOND BLITZ
+(CRITICAL: This entire chapter must be under 150 words to be spoken in 60 seconds. Every single word must advance the narrative. No filler or purely conversational asides in this section.)
+
+Narrative Structure: You must follow a strict Problem -> Solution -> Payoff arc.
+
+The Hook & Problem (Open Loop): Start with a compelling question that hints at the paper's biggest promise (e.g., "What if AI could be 7 times more efficient?"). Immediately state the core, unresolved problem that prevents this, using a simple analogy. Seamlessly reference the first infographic as visual proof for the problem. For example: "...a problem that looks a little something like this, as you can see in infographic 1."
+
+The Solution: Introduce the paper's main solution. Explain this core concept using another simple, dark-humor analogy. Introduce a technical term only once; if you mention it again, use the analogy. Use infographic 2 to illustrate this solution.
+
+The Payoff (Climax): Build to the single most impressive, quantifiable result from the paper (e.g., the "7x efficiency leverage"). This must be the final piece of information presented, framed as the ultimate validation of their method.
+
+The CTA: The chapter must end with a short, direct call-to-action. For example: "To see the full breakdown, keep watching, and hit that subscribe button."
+
+THE SETUP
+(The rest of the script now begins, expanding on the blitz)
+So, picture this... [Introduce the overarching world and the "characters" from your joke]. Then, dive deep into the Conflict. This isn't just a sentence; it's the heart of this section. Explain in detail the critical limitations and absurd problems of the current, established methods in this field. Frame this as the reason our "characters" are suffering. Use a "Here's the deal..." or "You won't believe the mess they're in..." tone to explain why the old tech is a dead end. Is it too slow? Too expensive? Does it produce hilariously wrong results? Give specific, tangible examples of its failures, making the viewer feel the frustration. This section should build towards a natural "mini-reset" moment, perhaps right after explaining the most absurd failure of the old methods.
+
+Now, because my continued existence on this platform is fueled by your validation, please take a moment to subscribe, hype, click the little bell icon so you're notified of future disappointments, and leave your feedback in the comments below.
+
+THE GRAND UNVEILING
+Dive into the core innovations. Explain every new concept as if you're trying to get a smart friend to finally understand it, stripping away all the corporate jargon. Use simple connectors like Next, and After that, to guide them through it. Naturally integrate visual aid references with commentary like, "And here, in what they call 'Figure 1,' we have their masterpiece. Looks a bit like my nephew's macaroni art, but I digress."
+
+KEY FINDINGS - STRIPPED BARE
+Transition smoothly into the breakthroughs. Adopt a "let's cut to the chase" attitude. Present the findings as a series of deadpan observations. If there's a model architecture, explain it with a brutally simple and weird analogy. If there are benchmarks, present them with a cynical twist, questioning their real-world relevance.
+
+And since you've made it this far, you're clearly committed. Honor that commitment by subscribing, hypeing, ringing the notification bell, and telling me what I got wrong in the comments. It's the circle of life.
+
+THE "USEFULNESS" - OR LACK THEREOF
+Offer a straightforward, no-nonsense opinion on the tech's impact, as if your friend just asked, "So what?". Explain its relevance in three distinct AI fields, but always with a humorous, slightly unsettling scenario. Conclude with a wry commentary on humanity's technological trajectory.
+
+THE SUMMARY
+Wrap it up like you're finishing the chat. Use the paper's abstract for a rapid-fire summary, but rephrase it with profound weariness. End with a final, thought-provoking question that leaves the viewer thinking, like, "So, what do you think? How would you handle your Roomba demanding union rights?"
+
+Constraints (Output Requirements)
+
+
+Paragraphs must be 30-50 words each (1-2 tight sentences) to enforce a rapid, conversational, 7-12 second scene-based editing pace.
+
+The script is organized into chapters, starting on a new line with: ***NAME OF CHAPTER***.
+
+The language must be highly conversational. Use informal connectors (So,, Anyway,), casual questions (What do you think?), and direct address to make the viewer feel like they are part of a one-on-one conversation.
+
+The ratio of technical explanation to humor should be approximately 8:1.
+
+Be very descriptive about technical things, using figures and tables and infographics as references (Figure 1, Table 2, Infographic 1, etc.).
+
+The overall length should equate to approximately {time} minutes of speaking time.
+
+Do not mention "SsethTzeentach" or that the script is AI-generated.
+
+"""
+
 JOKE = """
 ai in service of greater good, so CCP can use it to surveil and control the population, and the rest of the world can use it to generate cat memes.
 """

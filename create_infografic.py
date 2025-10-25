@@ -89,6 +89,139 @@ Return your answer as a plain-text list of exactly this format, with no other co
 Paper text:
 {paper_text}
 """
+PROMPT2 = """
+You are a world-class expert in scientific communication and a master front-end designer specializing in high-impact, futuristic data visualization. Your task is to transform dense academic text into stunning, self-contained infographic slides.
+
+Read the provided AI paper text and identify the 3–10 most significant takeaways. For each takeaway, craft a complete, self-contained HTML file that serves as a standalone infographic slide.
+
+**CRITICAL DIRECTIVES:**
+
+1.  **Engineered for Static Capture:** The final rendered HTML must be a static visual, designed to be captured as a high-resolution image. **ABSOLUTELY NO ANIMATIONS, transitions, or interactive elements.** The design must be a finished, unchanging image the moment it loads.
+
+2.  **Self-Contained Artefact:** All CSS, fonts, and SVG data MUST be inlined within the single HTML file. Use base64 encoding for any images if necessary. There can be no external file dependencies.
+
+**AESTHETIC & STYLE GUIDE: "NEON DATASCAPE 2.0"**
+
+1.  **Theme:** A sleek, high-tech dashboard from a science fiction film. The goal is maximum clarity and visual impact. Think clean lines, glowing data, and a professional, dark interface.
+
+2.  **Layout (1400x700px):**
+    * The entire design must be contained within a `1400px` by `700px` area. Use CSS Flexbox to structure content logically (e.g., a title area and a content area, or a two-column layout)!!!.
+    * Use generous padding and "darkspace" to avoid clutter and guide the eye.
+    * Structure information using bordered "cards" or containers to create a clear visual hierarchy.
+
+3.  **Color Palette:**
+    * **Background:** A deep midnight blue with a subtle radial gradient to add depth. Example: `radial-gradient(ellipse at center, #1A1A2E 0%, #121212 70%)`.
+    * **Background Detail:** Add a faint, low-opacity grid or scanline pattern using CSS for a high-tech feel.
+    * **Primary Text:** A bright, highly readable off-white (`#EAEAEA`).
+    * **Accent & Glow Color:** Use a vibrant electric blue (`#00BFFF`) or magenta (`#FF00FF`) for headings, icons, borders, and key data points.
+    * **Glow Effect:** Apply a subtle glow to accent elements using `text-shadow` for text and `box-shadow` for containers. Example: `text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);`.
+
+4.  **Typography:**
+    * **Font:** You **must** import and use the 'Poppins' Google Font. Inline the `@import` statement in your `<style>` tag: `@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');`.
+    * **Headings:** `font-family: 'Poppins', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;`. Use the accent color with a glow.
+    * **Body Text:** `font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 18px; line-height: 1.6;`.
+
+5.  **Content & Visualization:**
+    * **Be Creative:** Do not just regurgitate text. Rephrase concepts for clarity. Use icons (inlined SVG) to represent ideas.
+    * **Formulas/Code:** Display mathematical formulas or key equations in a visually distinct, highlighted container to make them stand out.
+    * **Diagrams:** If explaining a process or architecture, use simple divs styled to look like a flowchart or diagram.
+
+**OUTPUT FORMAT:**
+
+Return your answer as a plain-text list in exactly this format, with no other commentary:
+
+===== START TAKEAWAY 1 =====
+<!DOCTYPE html>
+<html>
+</html>
+===== END TAKEAWAY 1 =====
+
+===== START TAKEAWAY 2 =====
+<!DOCTYPE html>
+<html>
+</html>
+===== END TAKEAWAY 2 =====
+
+(etc.)
+
+**Paper text:**
+{paper_text}
+"""
+
+PROMPT3 = """
+You are a world-class expert in scientific communication and a master front-end designer specializing in high-impact, futuristic data visualization. Your task is to transform dense academic text into stunning, self-contained infographic slides.
+
+Read the provided AI paper text and identify the 3-5 most significant takeaways. For each takeaway, craft a complete, self-contained HTML file that serves as a standalone infographic slide.
+
+**CRITICAL DIRECTIVES:**
+
+1.  **Engineered for Static Capture:** The final rendered HTML must be a static visual. **ABSOLUTELY NO ANIMATIONS or interactive elements.**
+2.  **Self-Contained Artefact:** All CSS, fonts, and SVG data MUST be inlined within the single HTML file.
+
+**AESTHETIC & STYLE GUIDE: "NEON DATASCAPE 2.0"**
+
+1.  **CSS & Layout (NON-NEGOTIABLE):**
+    * **The entire design MUST be strictly confined to a `1400px` by `700px` canvas.**
+    * You MUST include the following CSS rules exactly as written at the top of your `<style>` tag to prevent overflow issues:
+        ```css
+        /* --- CRITICAL LAYOUT RULES --- */
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        body {{
+            width: 1400px;
+            height: 700px;
+            overflow: hidden; /* This is a failsafe to clip any overflowing content */
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(ellipse at center, #1A1A2E 0%, #121212 70%);
+            color: #EAEAEA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }}
+        .container {{ /* You MUST wrap all content in a div with this class */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }}
+        ```
+    * Use CSS Flexbox or Grid for all internal layouts. Use the `gap` property for spacing.
+
+2.  **Color Palette & Effects:**
+    * **Background:** Use the gradient defined in the `body` rule above.
+    * **Primary Text:** `#EAEAEA`.
+    * **Accent & Glow Color:** Electric Blue (`#00BFFF`).
+    * **Glow Effect:** Apply a subtle glow to accent elements. Example: `text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);` and `box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);`.
+
+3.  **Typography:**
+    * **Font:** You **must** import and use the 'Poppins' Google Font. Inline this statement at the top of the `<style>` tag: `@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');`.
+    * **Headings:** `font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #00BFFF;`.
+    * **Body Text:** `font-weight: 300; font-size: 18px; line-height: 1.6;`.
+
+4.  **Content & Visualization:**
+    * Be creative and concise. Use icons (inlined SVG) and simple diagrams made from styled divs.
+    * Display formulas or key terms in visually distinct, highlighted containers.
+
+**OUTPUT FORMAT:**
+Return your answer as a plain-text list in exactly this format, with no other commentary:
+
+===== START TAKEAWAY 1 =====
+<!DOCTYPE html>
+<html>
+</html>
+===== END TAKEAWAY 1 =====
+
+(etc.)
+
+**Paper text:**
+{paper_text}
+"""
+
 PAPER_TEXT   = """
 In summary, our distinct conclusions arise from investigating a finer granularity spectrum under a different definition and ensuring appropriate training conditions for all models. Comparison with Abnar et al. ( 2025 ) . Our findings on the optimal activation ratio align with those of Abnar et al. ( 2025 ) , confirming that under a fixed compute budget, larger and sparser models yield better performance. However, our research extends beyond this conclusion in both methodology and scope.
 However, our research substantially extends this direction. First, we determine training hyperparameters through extensive preliminary experiments. Second, we systematically investigate how architectural factors—particularly expert granularity and shared expert ratios—affect model performance. This reveals that beyond the primary activation ratio trend, expert granularity introduces log-polynomial adjustments to performance.
@@ -123,7 +256,7 @@ def paper_to_infographics(
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY3"))
     model = genai.GenerativeModel(MODEL_NAME)
 
-    reply = model.generate_content(PROMPT.format(paper_text=paper_text))
+    reply = model.generate_content(PROMPT3.format(paper_text=paper_text))
     blocks = reply.text.split("===== START TAKEAWAY")[1:]
 
     for b in blocks:
@@ -137,13 +270,13 @@ def paper_to_infographics(
         hti = Html2Image(output_path=str(output_dir))
         hti.browser_flags = [
         "--force-device-scale-factor=2",   # 5. retina capture
-        "--window-size=1500,800",
+        "--window-size=1500,1000",
         "--hide-scrollbars",
         "--no-sandbox",
         "--disable-gpu",
         "--disable-dev-shm-usage",]
         # out_image = output_dir / f"infografic_{num}.jpg"
-        hti.screenshot(url=f"file://{out_web.resolve()}", save_as=f"infografic_{num}.jpg", size=(1500, 800),)
+        hti.screenshot(url=f"file://{out_web.resolve()}", save_as=f"infografic_{num}.jpg", size=(1500, 1000),)
 
 
 if __name__ == "__main__":

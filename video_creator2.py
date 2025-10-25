@@ -580,9 +580,9 @@ def build_video_blocks_from_article(blocks, config, script_name):
     all_id_to_infografic += list(downloaded_article_dir_path.rglob("*.jpg"))
     all_id_to_infografic += list(downloaded_article_dir_path.rglob("*.jpeg"))
     all_id_to_infografic = {
-        int(image_path.stem.replace("all_id_to_infografic_", "")): image_path
+        int(image_path.stem.replace("infografic_", "")): image_path
         for image_path in all_id_to_infografic
-        if image_path.stem.startswith("all_id_to_infografic_")
+        if image_path.stem.startswith("infografic_")
     }
     # load all memes and text
     meme_database = []
@@ -781,13 +781,17 @@ def build_video_blocks_from_article(blocks, config, script_name):
                     final_clip = CompositeVideoClip([background_copy, image_clip])
                     final_clip = final_clip.with_audio(audio_clip)
         # infografic case
-        elif "infografic " in text.lower():
+
+        elif "infographic " in text.lower() or "infographic_" in text.lower():
             print("infografic in table")
-            infografic_number = text.lower().split("infografic ")[1].split(" ")[0][0]
-            if infografic_number.isdigit():
-                infografic_number = int(infografic_number)
-                if infografic_number in all_id_to_infografic.keys():
-                    image_path = all_id_to_infografic[infografic_number]
+            if "infographic " in text.lower():
+                infographic_number = text.lower().split("infographic ")[1].split(" ")[0][0]
+            elif "infographic_" in text.lower():
+                infographic_number = text.lower().split("infographic_")[1].split(" ")[0][0]
+            if infographic_number.isdigit():
+                infographic_number = int(infographic_number)
+                if infographic_number in all_id_to_infografic.keys():
+                    image_path = all_id_to_infografic[infographic_number]
                     block["photo"] = image_path
                     thumbnail_picture = image_path
                     image = cv2.imread(str(thumbnail_picture))

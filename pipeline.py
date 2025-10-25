@@ -37,10 +37,9 @@ from images_descriptions import process_images_in_directory
 # source_and_topic_gather.py
 all_papers = [
     # dodanie prezentacji na starcie ktora szybko miw i cachy co jest w filmie
-    "https://arxiv.org/html/2507.17702v3",
+    "https://arxiv.org/html/2507.16003v1",
+    "https://arxiv.org/html/2510.13220v1"
     # "https://arxiv.org/html/2510.18234v1",
-    # "https://arxiv.org/html/2507.16003v1",
-    # "https://arxiv.org/html/2510.13220v1"
 ]
 papers_dir_paths = []
 for paper in all_papers:
@@ -48,17 +47,14 @@ for paper in all_papers:
     papers_dir_paths.append(Path(folder_path))
 # scripts_writer.py
 jokes_strings = [
-    """ 
-    mix of experst is like mist of specliized people, economic do that, and in comunist cuntries they decite about that
+    """
+    Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
+    """,
+    """
+    evolution that makes Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
     """,
     # """
     # ocr, give from communist china party to every other goverment to track its citisents 
-    # """,
-    # """
-    # Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
-    # """,
-    # """
-    # evolution that makes Breakthrough that make ai agaents usefull, ai agents hive as comunist republic
     # """,
 
 ]
@@ -141,8 +137,8 @@ for folder_path in papers_dir_paths:
 outro_videos_paths = []
 for idx, script_path in enumerate(converted_scripts_paths):
     video_output_path = script_path.parent / "final_video.mp4"
-    if video_output_path.exists():
-        continue
+    # if video_output_path.exists():
+    #     continue
     main_function(
         script_path=script_path,
         downloaded_article_dir_path=papers_dir_paths[idx],
@@ -154,7 +150,6 @@ for idx, script_path in enumerate(converted_scripts_paths):
     # TODO: ADD difrent sources
     # TODO: ADD option for multiple sources mixing
     # TODO: ADD deepreaserch thing for script writing
-    # TODO: ADD MORE MEMES mei.py, beter meme choing
 # raise
 # upload
 yt_uploader = YoutubeUploader()

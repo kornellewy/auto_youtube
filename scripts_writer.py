@@ -380,7 +380,6 @@ The Visual & Pacing Blueprint
 
 The script's structure must drive high-retention editing, dictating the visual rhythm to create a perfect viewer heatmap and dynamic flow.
 
-
 The 7-12 Second Scene Rule: Each paragraph is a mini-scene. Keep them short and punchy to maintain a relentless forward momentum, forcing a cut or visual change every 7-12 seconds.
 
 Rhythmic Re-Engagement: Every 30-45 seconds, the script must introduce a "mini-reset." This is a deliberate spike in visual or auditory energy—a jump-cut, a text pop-up, or a sound effect—designed to re-capture the attention of a distracted viewer.
@@ -399,6 +398,8 @@ The Solution: Introduce the paper's main solution. Explain this core concept usi
 The Payoff (Climax): Build to the single most impressive, quantifiable result from the paper (e.g., the "7x efficiency leverage"). This must be the final piece of information presented, framed as the ultimate validation of their method.
 
 The CTA: The chapter must end with a short, direct call-to-action. For example: "To see the full breakdown, keep watching, and hit that subscribe button."
+
+Use all infographics as references in this section.
 
 THE SETUP
 (The rest of the script now begins, expanding on the blitz)
@@ -422,7 +423,6 @@ Wrap it up like you're finishing the chat. Use the paper's abstract for a rapid-
 
 Constraints (Output Requirements)
 
-
 Paragraphs must be 30-50 words each (1-2 tight sentences) to enforce a rapid, conversational, 7-12 second scene-based editing pace.
 
 The script is organized into chapters, starting on a new line with: ***NAME OF CHAPTER***.
@@ -436,6 +436,8 @@ Be very descriptive about technical things, using figures and tables and infogra
 The overall length should equate to approximately {time} minutes of speaking time.
 
 Do not mention "SsethTzeentach" or that the script is AI-generated.
+
+Use a lot of infographics as references.
 
 """
 

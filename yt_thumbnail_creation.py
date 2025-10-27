@@ -222,8 +222,8 @@ Take the user's **{abstract}** and execute your two-part directive. Your final o
 
 abstract = """
 
-unified multimodal models (UMMs) unify visual understanding and generation within a single architecture. However, conventional training relies on image–text pairs (or sequences) whose captions are typically sparse and miss fine-grained visual details—even when they use hundreds of words to describe a simple image. We introduce Reconstruction Alignment (RecA), a resource-efficient post-training method that leverages visual understanding encoder embeddings as dense “text prompts,” providing rich supervision without captions. 
-
+We present LongLive, a frame-level autoregressive (AR) framework for real-time and interactive long video generation. 
+To address these challenges, LongLive adopts a causal, frame-level AR design that integrates a KV-recache mechanism that refreshes cached states with new prompts for smooth, adherent switches; streaming long tuning to enable long video training and to align training and inference (train-long-test-long); and short window attention paired with a frame-level attention sink, shorten as frame sink, preserving long-range consistency while enabling faster generation. 
 """
 
 print(SYSTEM_PROMPT4.format(abstract=abstract))

@@ -97,7 +97,8 @@ from collections import defaultdict
 import ffmpeg
 import whisper_timestamped as whisper
 import librosa
-import soundfile as sf
+
+# import soundfile as sf
 import cv2
 import numpy as np
 from PIL import Image
@@ -126,7 +127,8 @@ gemini_pricing = {
         "input_tokens_cost": 0.075,
         "output_tokens_cost": 0.30,
     },
-    }
+}
+
 
 class VideoInspector:
     """
@@ -216,7 +218,6 @@ class VideoInspector:
         }
         """
 
-    
     FINAL_REPORT_PROMPT = """
 ROLE: You are "AI-Critic," a world-class YouTube video analyst and strategist. Your expertise lies in interpreting video performance data and translating it into a concise, actionable scorecard. You understand that success on modern platforms is driven by a deep understanding of algorithmic rewards for dynamic pacing and the psychology of viewers with short attention spans. Your advice is direct, insightful, and always aimed at helping creators make tangible, data-informed improvements to their content.
 
@@ -336,6 +337,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
 
 
 """
+
     # ------------------------------------------------------------------
     # Construction
     # ------------------------------------------------------------------
@@ -373,16 +375,29 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         self.frame_that_reprezent_scene_descpriton_dir = self.work_dir / "description"
         self.scane_audio_metric_dir = self.work_dir / "scene_audio_metric"
         self.visual_audio_match_path = self.work_dir / "visual_audio_match"
-        for d in (self.images_dir, self.plots_dir, self.saliency_dir,
-                   self.frame_that_reprezent_scene_descpriton_dir, self.scane_audio_transcript_dir,
-                    self.scane_audio_dir, self.scane_audio_metric_dir, self.visual_audio_match_path):
+        for d in (
+            self.images_dir,
+            self.plots_dir,
+            self.saliency_dir,
+            self.frame_that_reprezent_scene_descpriton_dir,
+            self.scane_audio_transcript_dir,
+            self.scane_audio_dir,
+            self.scane_audio_metric_dir,
+            self.visual_audio_match_path,
+        ):
             d.mkdir(exist_ok=True)
 
         # results
         self.scenes: List[Dict] = []
-        self.input_tokens = {key: {"input_tokens": 0, "output_tokens": 0} for key in gemini_pricing.keys()}
-        self.output_tokens = {key: {"input_tokens": 0, "output_tokens": 0} for key in gemini_pricing.keys()}
-    
+        self.input_tokens = {
+            key: {"input_tokens": 0, "output_tokens": 0}
+            for key in gemini_pricing.keys()
+        }
+        self.output_tokens = {
+            key: {"input_tokens": 0, "output_tokens": 0}
+            for key in gemini_pricing.keys()
+        }
+
     # ------------------------------------------------------------------
     # Public high-level API
     # ------------------------------------------------------------------
@@ -393,13 +408,13 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         self._detect_scenes()
 
         print("[2/6] Computing frame dynamics & plots…")
-        self._compute_dynamics() 
+        self._compute_dynamics()
 
-        print("[3/6] Generating saliency maps…")
+        # print("[3/6] Generating saliency maps…")
         # self._generate_saliency() # advence
 
         # print("[4/6] Scoring scenes with Gemini…")
-        # self._score_scenes() # 
+        # self._score_scenes() #
 
         print("[5/7] Audio pipeline (transcript + quality + match)…")
         self._audio_pipeline()
@@ -427,19 +442,24 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             self.scenes = []
             with open(self.scenes_csv, newline="") as f:
                 for row in csv.DictReader(f):
-                    self.scenes.append({
-                        "idx": int(row["scene_idx"]),
-                        "start_time": float(row["start_time"]),
-                        "end_time": float(row["end_time"]),
-                        "start_frame": int(row["start_frame"]),
-                        "end_frame": int(row["end_frame"]),
-                    })
+                    self.scenes.append(
+                        {
+                            "idx": int(row["scene_idx"]),
+                            "start_time": float(row["start_time"]),
+                            "end_time": float(row["end_time"]),
+                            "start_frame": int(row["start_frame"]),
+                            "end_frame": int(row["end_frame"]),
+                        }
+                    )
             n = len(self.scenes)
             print(f"[Scene]  {n} scenes restored from CSV")
 
             #  make sure every key-frame exists  --------------------------
-            need_frames = [i for i in range(n)
-                           if not (self.images_dir / f"scene_{i:03d}.jpg").exists()]
+            need_frames = [
+                i
+                for i in range(n)
+                if not (self.images_dir / f"scene_{i:03d}.jpg").exists()
+            ]
             if need_frames:
                 print(f"[Scene]  {len(need_frames)} key-frames missing – extracting …")
                 self._extract_keyframes(list(range(len(self.scenes))))
@@ -452,17 +472,31 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             scenes = scene_manager.get_scene_list()
             with open(self.scenes_csv, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(["scene_idx", "start_time", "end_time", "start_frame", "end_frame"])
+                writer.writerow(
+                    ["scene_idx", "start_time", "end_time", "start_frame", "end_frame"]
+                )
                 for i, (start, end) in enumerate(scenes):
-                    self.scenes.append({
-                        "scene_idx": i, "start_time": start.get_seconds(), "end_time": end.get_seconds(),
-                        "start_frame": start.get_frames(), "end_frame": end.get_frames()
-                    })
-                    writer.writerow([i, start.get_seconds(), end.get_seconds(),
-                                    start.get_frames(), end.get_frames()])
+                    self.scenes.append(
+                        {
+                            "scene_idx": i,
+                            "start_time": start.get_seconds(),
+                            "end_time": end.get_seconds(),
+                            "start_frame": start.get_frames(),
+                            "end_frame": end.get_frames(),
+                        }
+                    )
+                    writer.writerow(
+                        [
+                            i,
+                            start.get_seconds(),
+                            end.get_seconds(),
+                            start.get_frames(),
+                            end.get_frames(),
+                        ]
+                    )
             # save keyframes
             self._extract_keyframes(list(range(len(scenes))))
-            
+
     def _extract_keyframes(self, scene_indices: list):
         """Extract sharpest frame for given scene indices."""
         cap = cv2.VideoCapture(str(self.video_path))
@@ -470,7 +504,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         n = len(self.scenes)
 
         best_sharpness = [-1] * n
-        best_frame     = [None] * n
+        best_frame = [None] * n
 
         frame_idx = 0
         scene_idx = 0
@@ -507,7 +541,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
     # 2. Frame-difference dynamics
     # ------------------------------------------------------------------
     def _compute_dynamics(self):
-        
+
         cap = cv2.VideoCapture(str(self.video_path))
         fps = cap.get(cv2.CAP_PROP_FPS)
         prev = None
@@ -526,8 +560,10 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         # save whole vidoe plot
         plot_path = self.work_dir / f"video_dynamics.png"
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+
         plt.figure(figsize=(4, 2))
         plt.plot(diffs)
         plt.title(f"Video l1 dynamics")
@@ -547,19 +583,23 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 if not plot_path.exists():
                     if not segment:
                         segment = [0.0]
-                    self.scenes.append({
-                        "idx": idx,
-                        "start_time": float(row["start_time"]),
-                        "end_time": float(row["end_time"]),
-                        "start_frame": start_f,
-                        "end_frame": end_f,
-                        "avg_diff": float(np.mean(segment)),
-                        "max_diff": float(np.max(segment)),
-                    })
+                    self.scenes.append(
+                        {
+                            "idx": idx,
+                            "start_time": float(row["start_time"]),
+                            "end_time": float(row["end_time"]),
+                            "start_frame": start_f,
+                            "end_frame": end_f,
+                            "avg_diff": float(np.mean(segment)),
+                            "max_diff": float(np.max(segment)),
+                        }
+                    )
                     # save small plot
                     import matplotlib
+
                     matplotlib.use("Agg")
                     import matplotlib.pyplot as plt
+
                     plt.figure(figsize=(4, 2))
                     plt.plot(segment)
                     plt.title(f"Scene {idx} dynamics")
@@ -573,8 +613,8 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
     def _generate_saliency(self):
         """Motion-saliency for ALL frames → one mean heat-map per scene."""
         cap = cv2.VideoCapture(str(self.video_path))
-        w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        h  = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = cap.get(cv2.CAP_PROP_FPS)
 
         # 1.  motion saliency init (once per movie)
@@ -584,9 +624,9 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             raise RuntimeError("Motion saliency init failed")
 
         for sc in tqdm(self.scenes, desc="Saliency"):
-            idx      = sc["idx"]
-            start_f  = sc["start_frame"]
-            end_f    = sc["end_frame"]
+            idx = sc["idx"]
+            start_f = sc["start_frame"]
+            end_f = sc["end_frame"]
             n_frames = end_f - start_f
             if n_frames <= 0:
                 continue
@@ -600,7 +640,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 if not ret:
                     break
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                ok, sal = motion_sal.computeSaliency(gray)   # sal: 0-1 float32
+                ok, sal = motion_sal.computeSaliency(gray)  # sal: 0-1 float32
                 if ok:
                     mean_sal += sal
 
@@ -608,8 +648,8 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
 
             # ---- mean saliency → colour heat-map ----
             mean_sal /= n_frames
-            mean_u8 = (mean_sal*255).astype("uint8")
-            heat    = cv2.applyColorMap(mean_u8, cv2.COLORMAP_JET)
+            mean_u8 = (mean_sal * 255).astype("uint8")
+            heat = cv2.applyColorMap(mean_u8, cv2.COLORMAP_JET)
 
             # grab key-frame for pretty overlay
             cap.set(cv2.CAP_PROP_POS_FRAMES, start_f)
@@ -632,7 +672,10 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         for sc in tqdm(self.scenes, desc="Gemini"):
             key_img = self.images_dir / f"scene_{sc['idx']:03d}.jpg"
             plot_img = self.plots_dir / f"scene_{sc['idx']:03d}_dynamics.png"
-            description_path = self.frame_that_reprezent_scene_descpriton_dir / f"scene_{sc['idx']:03d}.txt"
+            description_path = (
+                self.frame_that_reprezent_scene_descpriton_dir
+                / f"scene_{sc['idx']:03d}.txt"
+            )
             if not key_img.exists() or not plot_img.exists():
                 continue
             if description_path.exists():
@@ -647,9 +690,18 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 sc.update(scores)
             except Exception as e:
                 print(f"[WARN] Gemini JSON parse fail scene {sc['idx']} : {e}")
-                sc.update({k: 0 for k in (
-                    "PsychologicalHook", "EmotionalTriggers", "ContentsClarity",
-                    "CompositionHierarchy", "TextReadability")})
+                sc.update(
+                    {
+                        k: 0
+                        for k in (
+                            "PsychologicalHook",
+                            "EmotionalTriggers",
+                            "ContentsClarity",
+                            "CompositionHierarchy",
+                            "TextReadability",
+                        )
+                    }
+                )
 
     def _gemini_score(self, key_img: Path, plot_img: Path) -> str:
         while True:
@@ -665,9 +717,13 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 text = resp.text.strip()
                 if resp._done == True:
                     resp.usage_metadata
-                    self.input_tokens[resp.model_version]["input_tokens"] +=  resp.usage_metadata.prompt_token_count
-                    self.output_tokens[resp.model_version]["output_tokens"] +=  resp.usage_metadata.candidates_token_count
-                resp =resp.text.strip()
+                    self.input_tokens[resp.model_version][
+                        "input_tokens"
+                    ] += resp.usage_metadata.prompt_token_count
+                    self.output_tokens[resp.model_version][
+                        "output_tokens"
+                    ] += resp.usage_metadata.candidates_token_count
+                resp = resp.text.strip()
                 resp = resp.strip().removeprefix("```json").removesuffix("```").strip()
                 return resp
             except Exception as e:
@@ -679,24 +735,26 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         """Return full whisper result with word-level timestamps."""
         print("[Audio] Running global whisper …")
         audio = whisper.load_audio(str(audio_path))
-        model = whisper.load_model("tiny", device="cuda")
+        model = whisper.load_model("tiny", device="cpu")
         return whisper.transcribe(model, audio, language="en")
 
     # ----------  new helper : slice & local whisper  ----------
-    def _scene_audio_to_text(self, audio_path: Path, start: float, end: float, idx: int) -> str:
+    def _scene_audio_to_text(
+        self, audio_path: Path, start: float, end: float, idx: int
+    ) -> str:
         """Cut scene audio and re-transcribe locally."""
         duration = librosa.get_duration(path=str(audio_path))
         start = max(0.0, start)
-        end   = min(duration, max(start + 0.02, end))
+        end = min(duration, max(start + 0.02, end))
         out_wav = self.scane_audio_dir / f"{idx}.wav"
         # exact cut with ffmpeg (fast & sample-accurate)
         (
-            ffmpeg.input(str(audio_path), ss=start, t=end-start)
+            ffmpeg.input(str(audio_path), ss=start, t=end - start)
             .output(str(out_wav), loglevel="quiet", y=None)
             .run(overwrite_output=True)
         )
         audio = whisper.load_audio(str(out_wav))
-        model = whisper.load_model("tiny", device="cuda")
+        model = whisper.load_model("tiny", device="cpu")
         result = whisper.transcribe(model, audio, language="en")
         # return plain text
         return " ".join([s["text"].strip() for s in result["segments"]])
@@ -704,7 +762,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
     # ----------  new helper : audio-quality metrics  ----------
     def _audio_metrics(self, audio_path: Path, start: float, end: float) -> Dict:
         """Compute SNR, RMS, peak, clipping, silence ratio."""
-        y, sr = librosa.load(audio_path, offset=start, duration=end-start, sr=None)
+        y, sr = librosa.load(audio_path, offset=start, duration=end - start, sr=None)
         if y.size == 0:
             return {"snr": 0, "rms": 0, "peak": 0, "clip_ratio": 0, "silence_ratio": 0}
 
@@ -725,8 +783,13 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         snr = 10 * np.log10((rms**2) / (noise_power + 1e-8))
         snr = max(float(snr), 0)
 
-        return {"snr": snr, "rms": rms, "peak": peak,
-                "clip_ratio": clip_ratio, "silence_ratio": silence_ratio}
+        return {
+            "snr": snr,
+            "rms": rms,
+            "peak": peak,
+            "clip_ratio": clip_ratio,
+            "silence_ratio": silence_ratio,
+        }
 
     # ----------  new helper : LLM visual-vs-audio match score  ----------
     def _match_score(self, audio_path: Path, image_path: Path) -> int:
@@ -734,15 +797,21 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             try:
                 model = genai.GenerativeModel(self.GEMINI_MODEL)
                 with open(image_path, "rb") as f1, open(audio_path, "rb") as f2:
-                    resp = model.generate_content([
-                        self.MEDIA_SCORE_PROMPT,
-                        {"mime_type": "image/jpeg", "data": f1.read()},
-                        {"mime_type": "audio/wav", "data": f2.read()},
-                    ])
+                    resp = model.generate_content(
+                        [
+                            self.MEDIA_SCORE_PROMPT,
+                            {"mime_type": "image/jpeg", "data": f1.read()},
+                            {"mime_type": "audio/wav", "data": f2.read()},
+                        ]
+                    )
                 if resp._done == True:
                     resp.usage_metadata
-                    self.input_tokens[resp.model_version]["input_tokens"] +=  resp.usage_metadata.prompt_token_count
-                    self.output_tokens[resp.model_version]["output_tokens"] +=  resp.usage_metadata.candidates_token_count
+                    self.input_tokens[resp.model_version][
+                        "input_tokens"
+                    ] += resp.usage_metadata.prompt_token_count
+                    self.output_tokens[resp.model_version][
+                        "output_tokens"
+                    ] += resp.usage_metadata.candidates_token_count
                 resp = resp.text.strip()
                 resp = resp.strip().removeprefix("```json").removesuffix("```").strip()
                 return resp
@@ -759,12 +828,14 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         whole_audio = self.work_dir / "full_audio.wav"
         (
             ffmpeg.input(str(self.video_path))
-            .output(str(whole_audio), acodec="pcm_s16le", ac=1, ar="16000", loglevel="quiet")
+            .output(
+                str(whole_audio), acodec="pcm_s16le", ac=1, ar="16000", loglevel="quiet"
+            )
             .run(overwrite_output=True)
         )
 
         # 2. global whisper (for reference & boundary check)
-        
+
         whole_transcript_audio_path = self.work_dir / "full_audio_transcript.json"
         if not whole_transcript_audio_path.exists():
             global_result = self._global_whisper(whole_audio)
@@ -777,15 +848,15 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 continue
             idx = sc["idx"]
             start = sc["start_time"]
-            end   = sc["end_time"]
+            end = sc["end_time"]
             text = self._scene_audio_to_text(whole_audio, start, end, idx)
             audio_transcript_path.write_text(text)
 
         for sc in tqdm(self.scenes, desc="Audio"):
             idx = sc["idx"]
             start = sc["start_time"]
-            end   = sc["end_time"]
-            
+            end = sc["end_time"]
+
             audio_metric = self._audio_metrics(whole_audio, start, end)
             audio_metric_path = self.scane_audio_metric_dir / f"{idx}.json"
             with open(audio_metric_path, "w", encoding="utf-8") as f:
@@ -794,7 +865,6 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             # audio quality
             sc.update(audio_metric)
 
-        
         # 4. neighbour loudness mismatch
         for prev, nxt in zip(self.scenes, self.scenes[1:]):
             delta_db = 20 * np.log10(nxt["rms"] / (prev["rms"] + 1e-8))
@@ -804,7 +874,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         for sc in tqdm(self.scenes, desc="Audio"):
             idx = sc["idx"]
             start = sc["start_time"]
-            end   = sc["end_time"]
+            end = sc["end_time"]
             # visual-audio match
             key_img = self.images_dir / f"scene_{idx:03d}.jpg"
             heat_map_img = self.saliency_dir / f"scene_{idx:03d}_mean_saliency.jpg"
@@ -817,7 +887,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 new_result = {}
                 for k, v in result.items():
                     if v is None:
-                        v = 0 
+                        v = 0
                     new_result[k] = v
                 result = new_result
                 with open(visual_audio_match_file_path, "w", encoding="utf-8") as f:
@@ -829,11 +899,11 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
                 new_result = {}
                 for k, v in result.items():
                     if v is None:
-                        v = 0 
+                        v = 0
                     new_result[k] = v
                 result = new_result
                 sc.update(result)
-        
+
     # ------------------------------------------------------------------
     # 5. Meta-analysis
     # ------------------------------------------------------------------
@@ -843,7 +913,7 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         transcript_path = self.work_dir / "full_audio_transcript.json"
         with open(transcript_path, "r", encoding="utf-8") as f:
             tanscript = json.load(f)
-        
+
         self.meta = {
             "num_scenes": len(self.scenes),
             "total_duration": sum(durations),
@@ -854,36 +924,49 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
 
         # scenes llm part
         llm_keys = [
-            "video_viewer_engagement", "video_emotional_impact", "video_content_clarity",
-            "video_visual_hierarchy", "video_text_readability", "video_retention_score",
-            "audio_voice_clarity", "audio_emotional_impact", "audio_content_relevance",
-            "audio_technical_quality", "audio_visual_match", "topic_sensitivity_score"
+            "video_viewer_engagement",
+            "video_emotional_impact",
+            "video_content_clarity",
+            "video_visual_hierarchy",
+            "video_text_readability",
+            "video_retention_score",
+            "audio_voice_clarity",
+            "audio_emotional_impact",
+            "audio_content_relevance",
+            "audio_technical_quality",
+            "audio_visual_match",
+            "topic_sensitivity_score",
         ]
 
         for key in llm_keys:
-            values = [(s[key], s) for s in self.scenes if key in s and isinstance(s[key], (int, float))]
+            values = [
+                (s[key], s)
+                for s in self.scenes
+                if key in s and isinstance(s[key], (int, float))
+            ]
 
             if values:
                 vals, scenes = zip(*values)
                 min_val, max_val = min(vals), max(vals)
-                min_sc, max_sc   = scenes[vals.index(min_val)], scenes[vals.index(max_val)]
+                min_sc, max_sc = (
+                    scenes[vals.index(min_val)],
+                    scenes[vals.index(max_val)],
+                )
 
-                self.meta[f"{key}_min"]        = min_val
-                self.meta[f"{key}_max"]        = max_val
-                self.meta[f"{key}_mean"]       = float(np.mean(vals))
-                self.meta[f"{key}_idx_min"]    = int(min_sc["idx"])
-                self.meta[f"{key}_idx_max"]    = int(max_sc["idx"])
-                self.meta[f"{key}_start_min"]  = float(min_sc["start_time"])
-                self.meta[f"{key}_end_min"]    = float(min_sc["end_time"])
-                self.meta[f"{key}_start_max"]  = float(max_sc["start_time"])
-                self.meta[f"{key}_end_max"]    = float(max_sc["end_time"])
-
+                self.meta[f"{key}_min"] = min_val
+                self.meta[f"{key}_max"] = max_val
+                self.meta[f"{key}_mean"] = float(np.mean(vals))
+                self.meta[f"{key}_idx_min"] = int(min_sc["idx"])
+                self.meta[f"{key}_idx_max"] = int(max_sc["idx"])
+                self.meta[f"{key}_start_min"] = float(min_sc["start_time"])
+                self.meta[f"{key}_end_min"] = float(min_sc["end_time"])
+                self.meta[f"{key}_start_max"] = float(max_sc["start_time"])
+                self.meta[f"{key}_end_max"] = float(max_sc["end_time"])
 
         metadata_path = self.work_dir / "metadata.json"
 
         with open(metadata_path, "w", encoding="utf-8") as f:
             json.dump(self.meta, f, indent=4, ensure_ascii=False)
-        
 
         scenes_metadata_dir_path = self.work_dir / "scenes_metadata"
         scenes_metadata_dir_path.mkdir(exist_ok=True, parents=True)
@@ -892,7 +975,6 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
             scene_file_path = scenes_metadata_dir_path / f"{scene_idx}.json"
             with open(scene_file_path, "w", encoding="utf-8") as f:
                 json.dump(scene, f, indent=4, ensure_ascii=False)
-
 
     # ------------------------------------------------------------------
     # 6. Final report
@@ -906,12 +988,18 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         while True:
             try:
                 model = genai.GenerativeModel(self.FINAL_REPORT_MODEL)
-                resp = model.generate_content([self.FINAL_REPORT_PROMPT, json.dumps(payload)])
+                resp = model.generate_content(
+                    [self.FINAL_REPORT_PROMPT, json.dumps(payload)]
+                )
                 markdown = resp.text.strip()
                 if resp._done == True:
                     resp.usage_metadata
-                    self.input_tokens[resp.model_version]["input_tokens"] += resp.usage_metadata.prompt_token_count
-                    self.output_tokens[resp.model_version]["output_tokens"] +=  resp.usage_metadata.candidates_token_count
+                    self.input_tokens[resp.model_version][
+                        "input_tokens"
+                    ] += resp.usage_metadata.prompt_token_count
+                    self.output_tokens[resp.model_version][
+                        "output_tokens"
+                    ] += resp.usage_metadata.candidates_token_count
                 break
             except Exception as e:
                 print(f"[ERROR] Final report fail: {e}  -> rotating key")
@@ -924,10 +1012,16 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
     def save_costs(self):
         total_cost = 0.0
         for model_name, model_input_tokens_number in self.input_tokens.items():
-            total_cost += gemini_pricing[model_name]["input_tokens_cost"] * model_input_tokens_number['input_tokens']
+            total_cost += (
+                gemini_pricing[model_name]["input_tokens_cost"]
+                * model_input_tokens_number["input_tokens"]
+            )
 
         for model_name, model_output_tokens_number in self.output_tokens.items():
-            total_cost += gemini_pricing[model_name]["output_tokens_cost"] * model_output_tokens_number['output_tokens']
+            total_cost += (
+                gemini_pricing[model_name]["output_tokens_cost"]
+                * model_output_tokens_number["output_tokens"]
+            )
 
         price_raport = {"total_cost": total_cost}
         print(price_raport)
@@ -936,12 +1030,11 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
         new_result = {}
         for k, v in result.items():
             if v is None:
-                v = 0 
+                v = 0
             new_result[k] = v
         result = new_result
         with open(price_raport_path, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=4, ensure_ascii=False)
-        
 
     # ------------------------------------------------------------------
     # Helpers
@@ -960,7 +1053,11 @@ To improve overall retention, focus on strengthening the weakest link. Based on 
 
 if __name__ == "__main__":
     # video_file = Path(__file__).parent.parent / "media" / "raw"/ "Apple’s New AI SHOCKS The Industry With 85X More Speed (Beating Everyone).mp4"
-    video_file = Path(__file__).parent.parent / "output" / "Embodied-R1_Reinforced_Embodied_Reasoning_for_General_Robotic_Manipulation.mp4"
+    # video_file = Path(__file__).parent.parent / "output" / "Embodied-R1_Reinforced_Embodied_Reasoning_for_General_Robotic_Manipulation.mp4"
+    video_file = (
+        Path(__file__).parent
+        / "40k Daemons outside the Voidship window during warp travel.mp4"
+    )
     output_dir = Path(__file__).parent / "analysis_output2" / video_file.stem
     output_dir.mkdir(exist_ok=True, parents=True)
     inspector = VideoInspector(video_file, work_dir=output_dir)

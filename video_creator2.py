@@ -575,6 +575,15 @@ def build_video_blocks_from_article(blocks, config, script_name):
         for image_path in all_id_to_table_image
         if image_path.stem.startswith("table_")
     }
+    # load all infograci form paper
+    all_id_to_infografic = list(downloaded_article_dir_path.rglob("*.png"))
+    all_id_to_infografic += list(downloaded_article_dir_path.rglob("*.jpg"))
+    all_id_to_infografic += list(downloaded_article_dir_path.rglob("*.jpeg"))
+    all_id_to_infografic = {
+        int(image_path.stem.replace("infografic_", "")): image_path
+        for image_path in all_id_to_infografic
+        if image_path.stem.startswith("infografic_")
+    }
     # load all memes and text
     meme_database = []
     for image_path in meme_dir_path.glob("*.jpg"):
@@ -650,16 +659,58 @@ def build_video_blocks_from_article(blocks, config, script_name):
                 new_blocks_all.append(block)
         else:
             new_blocks_all.append(block)
+    # split text into blocks bs multiple infografic
+    new_blocks_all = []
+    for block in blocks:
+        text = block["text"]
+        if "infografic" in text.lower():
+            # Count how many times "figure" appears
+            figures_per_block = sum(
+                1 for word in text.lower().split() if "infografic" in word
+            )
 
+            if figures_per_block > 1:
+                # Split text into sentences
+                sentences = text.split(".")
+                sentences = [s.strip() for s in sentences if s.strip()]  # remove empty
+
+                current_block_sentences = []
+                figure_count = 0
+
+                for sentence in sentences:
+                    current_block_sentences.append(sentence)
+                    if "infografic" in sentence.lower():
+                        figure_count += 1
+                        # When one 'figure' is included, make a block
+                        new_text = ". ".join(current_block_sentences).strip() + "."
+                        new_block = block.copy()
+                        new_block["text"] = new_text
+                        new_blocks_all.append(new_block)
+                        current_block_sentences = []
+
+                # Add any leftover sentences as a block (if not empty)
+                if current_block_sentences:
+                    new_text = ". ".join(current_block_sentences).strip() + "."
+                    new_block = block.copy()
+                    new_block["text"] = new_text
+                    new_blocks_all.append(new_block)
+            else:
+                new_blocks_all.append(block)
+        else:
+            new_blocks_all.append(block)
+
+    blocks = new_blocks_all
+    if blocks[0]["text"].startswith("***"):
+        del blocks[0]
     print(f"len of blocks {len(blocks)}")
     # embeding all blocks text
-    all_texts = [block["text"] for block in new_blocks_all]
+    all_texts = [block["text"] for block in blocks]
     all_blocks_text_embeddings = model.encode(
         all_texts, convert_to_tensor=True, show_progress_bar=True
     )
     del model
-    blocks = new_blocks_all
-
+    # blocks = new_blocks_all
+    
     for block_idx, block in enumerate(blocks):
         print("block_idx", block_idx)
         # print("text", block["text"])
@@ -710,6 +761,37 @@ def build_video_blocks_from_article(blocks, config, script_name):
                 table_number = int(table_number)
                 if table_number in all_id_to_table_image.keys():
                     image_path = all_id_to_table_image[table_number]
+                    block["photo"] = image_path
+                    thumbnail_picture = image_path
+                    image = cv2.imread(str(thumbnail_picture))
+                    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    image = resize_keep_aspect_with_padding(image, BACKGROUND_RES)
+                    image_clip = ImageClip(image)
+
+                    background_copy = background.copy()
+                    background_copy = background_copy.with_effects(
+                        [vfx.Loop(duration=audio_clip.duration)]
+                    )
+                    image_clip = image_clip.with_duration(audio_clip.duration)
+                    background_copy.layer = 0
+                    image_clip.layer = 1
+                    image_clip = image_clip.with_position(
+                        ("center", "center"), relative=True
+                    )
+                    final_clip = CompositeVideoClip([background_copy, image_clip])
+                    final_clip = final_clip.with_audio(audio_clip)
+        # infografic case
+
+        elif "infographic " in text.lower() or "infographic_" in text.lower():
+            print("infografic in table")
+            if "infographic " in text.lower():
+                infographic_number = text.lower().split("infographic ")[1].split(" ")[0][0]
+            elif "infographic_" in text.lower():
+                infographic_number = text.lower().split("infographic_")[1].split(" ")[0][0]
+            if infographic_number.isdigit():
+                infographic_number = int(infographic_number)
+                if infographic_number in all_id_to_infografic.keys():
+                    image_path = all_id_to_infografic[infographic_number]
                     block["photo"] = image_path
                     thumbnail_picture = image_path
                     image = cv2.imread(str(thumbnail_picture))

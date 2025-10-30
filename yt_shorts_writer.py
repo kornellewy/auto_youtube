@@ -37,12 +37,13 @@ BEST PRACTICE CHECKLIST
 3. CTA (last 2-3 s): “Watch the full breakdown on … link below!”
 4. Style: second-person, hype, simple words, no jargon.
 5. Length: 45-55 words ≈ 15-20 s when read fast.
+6. Continuous Text for TTS
 
 Return the scripts as plain text blocks separated only by two newlines:
 
-===== START TAKEAWAY 1 =====
+===== START SCRIPT 1 =====
 Script 1
-===== END TAKEAWAY 1 =====
+===== END SCRIPT 1 =====
 
 (etc.)
 
@@ -94,11 +95,11 @@ def create_shorts_scripts(paper_path: Path) -> list[str]:
     full_prompt = SHORTS_PROMPT.format(article=article_text, images=image_desc, infographics=infografic_descriptions)
     reply = model.generate_content(full_prompt)
 
-    blocks = reply.text.split("===== START TAKEAWAY")[1:]
+    blocks = reply.text.split("===== START SCRIPT")[1:]
 
     scripts_paths = []
     for b in blocks:
-        short_text = b.split("===== END TAKEAWAY")[0].strip()
+        short_text = b.split("===== END SCRIPT")[0].strip()
         num = short_text.split("=====")[0].strip()
         script = short_text.split("=====\n")[1]
         yt_short_script_path = paper_path / f"yt_short_script_{num}.txt"

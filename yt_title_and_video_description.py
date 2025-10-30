@@ -19,7 +19,13 @@ Act as 'GLaDOS GPT', a cynical and witty AI content strategist. Your task is to 
 4.  **Keywords:** Naturally include keywords like "AI", "Machine Learning", or a term directly from the paper's topic.
 5.  **Restrictions:** Absolutely NO emojis, NO quotes, and NO hashtags. Return only title becose it will be direcly automatycli save to txt file.
 6.  **Inspiration:** Think titles like "AI Researchers Accidentally Built a Paperclip Maximizer", "This AI Paper Proves We're All Screwed", or "So AI Can Now Read Minds... Great."
-7.  
+7.  Title Rules You Must Follow: for optimizer:
+    ZERO technical jargon - no "DoRA", "LyCORIS", "Linear Diffusion Transformers"
+    Add conflict words - "defeats", "crushes", "kills", "destroys", "embarrasses"
+    Use emotional hooks - "just", "finally", "crazy", "wild", "revolution"
+    Remove parentheses - they kill click-through rate
+    Keep under 60 characters - your best titles are punchy
+
 **AI Paper Script Context:**
 {script}
 """
@@ -45,13 +51,62 @@ PROMPT_HASHTAGS = """
 Act as an SEO expert for a niche tech-humor YouTube channel specializing in AI paper summaries. Your task is to generate a strategically optimized list of 15 YouTube tags.
 
 **Instructions:**
-1.  **Tag Quantity:** Provide exactly 50 tags. 
+1.  **Tag Quantity:** Provide exactly 20 tags. 
 2.  **Tag Mix:** The list must be a strategic blend of:
     * **5 Broad Tech Tags:** High-volume keywords (e.g., llm, SOTA, AI, artificialintelligence, machinelearning, tech, science, programming).
     * **5 Specific Niche Tags:** Keywords directly from the paper (e.g., the model name like 'DiT', the core topic like 'diffusion model', 'computervision', 'llm', the university/lab).
     * **5 Thematic/Humor Tags:** Keywords capturing the channel's tone (e.g., darkhumor, techmemes, satire, aihumor, sciencehumor, engineeringmemes).
 3.  **Output Format:** Return a single line of text. All tags must be lowercase and separated by a single space.
 4.  **Restrictions:** Do NOT use the '#' symbol. Do NOT include emojis.
+
+examples of good keywaords :
+
+ai news
+chatgpt
+ai
+aiagent
+aiexplained
+aihumor
+artificialintelligence
+computerscience
+datascience
+deeplearning
+futuretech
+futureofai
+inference
+llm
+machinelearning
+metatraining
+neuralnetworks
+promptengineering
+research
+scienceexplained
+sota
+tech
+techhumor
+techmemes
+transformer
+modeltraining
+chatgpt
+gemini 2.5 pro
+
+Tags to Add to EVERY Video:
+
+Primary (always use):
+
+    ai news
+    artificial intelligence
+    chatgpt
+    openai
+    machine learning explained
+
+Secondary (match your topic):
+
+    For comparisons: deepseek, google gemini, claude ai, llm comparison
+    For tutorials: ai tutorial, how to use ai, ai for beginners
+    For research: ai research, ai breakthrough, latest ai
+
+Use 15-20 tags per video.
 
 **AI Paper Script Context:**
 {script}

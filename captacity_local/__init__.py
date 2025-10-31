@@ -3,6 +3,7 @@ import subprocess
 import tempfile
 import time
 import os
+from pathlib import Path
 
 from . import segment_parser
 from . import transcriber
@@ -163,7 +164,7 @@ def add_captions(
     if print_info:
         print("Extracting audio...")
 
-    temp_audio_file = tempfile.NamedTemporaryFile(suffix=".wav").name
+    temp_audio_file = str(Path(video_file).parent / f"{Path(video_file).stem}.wav")
     ffmpeg([
         'ffmpeg',
         '-y',
@@ -222,7 +223,7 @@ def add_captions(
         for current_index, caption in enumerate(captions_to_draw):
             line_data = calculate_lines(caption["text"], font, font_size, stroke_width, text_bbox_width)
 
-            text_y_offset = video.h // 2 - line_data["height"] // 2
+            text_y_offset = (video.h // 2 + video.h // 3) - line_data["height"] // 2
             index = 0
             for line in line_data["lines"]:
                 pos = ("center", text_y_offset)

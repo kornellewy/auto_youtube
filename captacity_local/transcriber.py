@@ -42,10 +42,14 @@ def transcribe_locally(
     model = whisper.load_model("base")
 
     transcription = model.transcribe(
-        audio=audio_file,
+        audio=str(audio_file),
         word_timestamps=True,
         fp16=False,
         initial_prompt=prompt,
     )
+
+    # audio = whisper.load_audio(str(audio_file))
+    # model = whisper.load_model("base")
+    # transcription=  whisper.transcribe(model, audio_file, word_timestamps=True,initial_prompt=prompt)
 
     return transcription["segments"]

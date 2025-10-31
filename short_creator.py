@@ -14,7 +14,7 @@ from moviepy import (
     vfx,
     CompositeAudioClip,
 )
-import captacity
+import captacity_local
 import torch
 import random
 from PIL import Image, ImageDraw, ImageFont
@@ -519,12 +519,13 @@ def main(
     if output_video_path is None:
         output_video_path = Path(__file__).parent / "output" / f"{script_path.stem}.mp4"
         (Path(__file__).parent / "output").mkdir(parents=True, exist_ok=True)
-    # final_video.write_videofile(str(output_video_path), fps=30)#, preset="superfast")
+    final_video.write_videofile(str(output_video_path), fps=30)#, preset="superfast")
     
 
-    captacity.add_captions(
+    captacity_local.add_captions(
         video_file=output_video_path,
         output_file=output_video_path,
+        initial_prompt=Path(script_path).read_text(),
     )
     print(f"save output_video_path in {output_video_path}")
     return output_video_path
